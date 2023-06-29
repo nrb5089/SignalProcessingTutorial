@@ -40,6 +40,8 @@ Matplotlib is a popular data visualization library in Python that allows users t
 
 In this code, we generate a time variable `t`, and a signal `a` that is a 5Hz sine wave. Then we plot the signal using ```matplotlib```.
 
+![Alt text](../figs/cosine_wave.png?raw=true)
+
 ## 2. Adding Noise to the Signal
 
 Real-world signals often come with noise. Let's add some random noise to our signal:
