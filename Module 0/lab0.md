@@ -1,6 +1,50 @@
 # Setting up Python environment
 
-#Using Numpy Arrays
+Python should be installed on your machine under the C:\Python
+
+# Recommended Development Environment Setup
+This is my environment I use, but feel free to use whatever makes sense.
+
+## Spyder, Pycharm, or some other IDE
+	Contact IT for installation.
+
+## No frills CMD and Notepad++
+	Open up the ```Command Prompt``` using any method you like (I press the ```Windows``` key and type ```cmd``` and hit ```enter```).  
+	
+	Create a batch file by typing 
+	
+	```notepad mysetup.bat```
+	
+	Place the following text in the batch file (Note that you may need to adjust the paths):
+	
+	```
+	@ECHO OFF
+	DOSKEY py="<full path>\Python\python.exe"
+	DOSKEY npp="<full path>\Notepad++\notepad++.exe"
+	```
+	
+	At the time of this writing, Python should be in ```C:``` and Notepad++ should be in either ```C:\Program Files``` or ```C:\Program Files x86``` on the associated DEV machines.  Save and/or save and close the batch file.
+
+	Type ```mysetup.bat```, this should initialize the cmd prompt to now use your short hand expressions ```py``` and ```npp``` for the respective programs.  Create a new ```.py``` file by typing 
+	
+	```npp hello_world.py```
+	
+	If ```Notepad++``` opens up with this new file, this portion works correctly.  Now add 
+	
+	```print('hello world!')```
+	
+	to your new ```.py``` file.  Save and/or save and close the new ```hello_world.py``` file.  In the CMD Prompt, type 
+	
+	```py hello_world.py``` 
+	
+	if you received a message in the next line ```hello world!```, then everything is working.  
+	
+	**Note**: You will have to refresh ```mysetup.bat``` for each new CMD window openned.
+	
+# Why Python?
+Python is a relatively easy programming language that we use for signal processing demonstration and prototyping of algorithms.  The key mathematics come from operations in linear algebra and concepts in statistics/probability.  We use the analogy of 1D and 2D arrays to correspond to vectors and matrices, respectively.  The following tutorial provides some basic arithmetic and implementation syntax, along with the mathematical equivalent statements.  
+
+# Using Numpy Arrays
 
 NumPy is a Python library used for working with arrays. It also has functions for working in the domain of linear algebra, fourier transform, and matrices.
 
@@ -19,6 +63,8 @@ We use `as np` so that we can refer to numpy with the shortened 'np' instead of 
 
 ## Creating a NumPy array
 
+Vectors and Matrices are critical to understanding signal processing algorithms, we denote vectors as bold lower case $$\textbf{v}$$ and matrices as bold upper case $$\textbf{M}$$.  Tensors (informally, matrices with greater than 2 dimensions), are also represented by multidimensional arrays.
+
 A numpy array is a grid of values, all of the same type, and is indexed by a tuple of nonnegative integers. 
 
 You can create a numpy array from a Python list or tuple using the `array` function. Here's an example:
@@ -26,53 +72,54 @@ You can create a numpy array from a Python list or tuple using the `array` funct
 ```python
 import numpy as np
 
-## Creating a 1D array
-arr = np.array([1, 2, 3])
-print(arr)
+## Creating a 1D array (Vector)
+v = np.array([1, 2, 3])
+print(v)
 
 ## Creating a 2D array (Matrix)
-arr_2d = np.array([[1, 2, 3], [4, 5, 6]])
-print(arr_2d)
+M = np.array([[1, 2, 3], [4, 5, 6]])
+print(M)
 
-## Creating a 3D array
-arr_3d = np.array([[[1, 2, 3], [4, 5, 6]], [[7, 8, 9], [10, 11, 12]]])
-print(arr_3d)
+## Creating a 3D array (Tensor)
+mytensor = np.array([[[1, 2, 3], [4, 5, 6]], [[7, 8, 9], [10, 11, 12]]])
+print(mytensor)
 ```
 
 ## Array Indexing
+The $$n$$th element of a vector may be denoted as $$v[n]$$ or $$v_n$$.  We will denote this in unbolded since it is scalar, i.e., $$\textbf{v} = [v_0,\dots,v_n,\dots]$$.
 
-You can access the array elements just like you do with Python lists:
+You can access the array elements as:
 
 ```python
 import numpy as np
 
-arr = np.array([1, 2, 3, 4, 5])
+v = np.array([1, 2, 3, 4, 5])
 
-print(arr[1])  # Output: 2
-print(arr[2] + arr[3])  # Output: 7
+print(v[1])  # Output: 2
+print(v[2] + v[3])  # Output: 7
 ```
-
+Likewise for matrices $$M[m,n]$$ or $$M_{m,n}$$ denotes the element in row $$m$$ and column $$n$$.
 For 2D arrays, you need to use comma-separated indices:
 
 ```python
 import numpy as np
 
-arr_2d = np.array([[1,2,3,4,5], [6,7,8,9,10]])
+M = np.array([[1,2,3,4,5], [6,7,8,9,10]])
 
 # Accessing the element at 1st row and 2nd column
-print(arr_2d[1, 2])  # Output: 8
+print(M[1, 2])  # Output: 8
 ```
 
 ## Array Slicing
 
-NumPy arrays can be sliced, similar to Python lists. You can slice a NumPy array like this:
+NumPy arrays can be sliced, You can slice a NumPy array like this:
 
 ```python
 import numpy as np
 
-arr = np.array([1, 2, 3, 4, 5, 6, 7])
+v = np.array([1, 2, 3, 4, 5, 6, 7])
 
-print(arr[1:5])  # Output: array([2, 3, 4, 5])
+print(v[1:5])  # Output: array([2, 3, 4, 5])
 ```
 
 For 2D arrays, it works similarly:
@@ -80,10 +127,10 @@ For 2D arrays, it works similarly:
 ```python
 import numpy as np
 
-arr_2d = np.array([[1,2,3,4,5], [6,7,8,9,10]])
+M = np.array([[1,2,3,4,5], [6,7,8,9,10]])
 
 # Accessing the first 2 elements of the first 2 rows
-print(arr_2d[0:2, 0:2])  # Output: array([[1, 2], [6, 7]])
+print(M[0:2, 0:2])  # Output: array([[1, 2], [6, 7]])
 ```
 
 ## Basic Array Operations
