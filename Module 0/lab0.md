@@ -9,37 +9,37 @@ This is my environment I use, but feel free to use whatever makes sense.
 	Contact IT for installation.
 
 ## No frills CMD and Notepad++
-	Open up the ```Command Prompt``` using any method you like (I press the ```Windows``` key and type ```cmd``` and hit ```enter```).  
+Open up the ```Command Prompt``` using any method you like (I press the ```Windows``` key and type ```cmd``` and hit ```enter```).  
 	
-	Create a batch file by typing 
+Create a batch file by typing 
 	
-	```notepad mysetup.bat```
+```notepad mysetup.bat```
 	
-	Place the following text in the batch file (Note that you may need to adjust the paths):
+Place the following text in the batch file (Note that you may need to adjust the paths):
 	
-	```
+```
 	@ECHO OFF
 	DOSKEY py="<full path>\Python\python.exe"
 	DOSKEY npp="<full path>\Notepad++\notepad++.exe"
-	```
-	
-	At the time of this writing, Python should be in ```C:``` and Notepad++ should be in either ```C:\Program Files``` or ```C:\Program Files x86``` on the associated DEV machines.  Save and/or save and close the batch file.
+```
 
-	Type ```mysetup.bat```, this should initialize the cmd prompt to now use your short hand expressions ```py``` and ```npp``` for the respective programs.  Create a new ```.py``` file by typing 
+At the time of this writing, Python should be in ```C:``` and Notepad++ should be in either ```C:\Program Files``` or ```C:\Program Files x86``` on the associated DEV machines.  Save and/or save and close the batch file.
+
+Type ```mysetup.bat```, this should initialize the cmd prompt to now use your short hand expressions ```py``` and ```npp``` for the respective programs.  Create a new ```.py``` file by typing 
 	
-	```npp hello_world.py```
+```npp hello_world.py```
 	
-	If ```Notepad++``` opens up with this new file, this portion works correctly.  Now add 
+If ```Notepad++``` opens up with this new file, this portion works correctly.  Now add 
 	
-	```print('hello world!')```
+```print('hello world!')```
 	
-	to your new ```.py``` file.  Save and/or save and close the new ```hello_world.py``` file.  In the CMD Prompt, type 
+to your new ```.py``` file.  Save and/or save and close the new ```hello_world.py``` file.  In the CMD Prompt, type 
 	
-	```py hello_world.py``` 
+```py hello_world.py``` 
 	
-	if you received a message in the next line ```hello world!```, then everything is working.  
+if you received a message in the next line ```hello world!```, then everything is working.  
 	
-	**Note**: You will have to refresh ```mysetup.bat``` for each new CMD window openned.
+**Note** : You will have to refresh ```mysetup.bat``` for each new CMD window openned.
 	
 # Why Python?
 Python is a relatively easy programming language that we use for signal processing demonstration and prototyping of algorithms.  The key mathematics come from operations in linear algebra and concepts in statistics/probability.  We use the analogy of 1D and 2D arrays to correspond to vectors and matrices, respectively.  The following tutorial provides some basic arithmetic and implementation syntax, along with the mathematical equivalent statements.  
