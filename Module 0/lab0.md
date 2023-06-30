@@ -63,7 +63,7 @@ We use `as np` so that we can refer to numpy with the shortened 'np' instead of 
 
 ## Creating a NumPy array
 
-Vectors and Matrices are critical to understanding signal processing algorithms, we denote vectors as bold lower case $$\textbf{v}$$ and matrices as bold upper case $$\textbf{M}$$.  Tensors (informally, matrices with greater than 2 dimensions), are also represented by multidimensional arrays.
+Vectors and Matrices are critical to understanding signal processing algorithms, we denote vectors as bold lower case $\textbf{v}$ and matrices as bold upper case $\textbf{M}$.  Tensors (informally, matrices with greater than 2 dimensions), are also represented by multidimensional arrays.
 
 A numpy array is a grid of values, all of the same type, and is indexed by a tuple of nonnegative integers. 
 
@@ -86,7 +86,7 @@ print(mytensor)
 ```
 
 ## Array Indexing
-The $$n$$th element of a vector may be denoted as $$v[n]$$ or $$v_n$$.  We will denote this in unbolded since it is scalar, i.e., $$\textbf{v} = [v_0,\dots,v_n,\dots]$$.
+The $$n$$th element of a vector may be denoted as $v[n]$ or $v_n$.  We will denote this in unbolded since it is scalar, i.e., $\textbf{v} = [v_0,\dots,v_n,\dots]$.
 
 You can access the array elements as:
 
