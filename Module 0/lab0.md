@@ -6,7 +6,7 @@ Python should be installed on your machine under the C:\Python
 This is my environment I use, but feel free to use whatever makes sense.
 
 ## Spyder, Pycharm, or some other IDE
-	Contact IT for installation.
+Contact IT for installation.
 
 ## No frills CMD and Notepad++
 Open up the ```Command Prompt``` using any method you like (I press the ```Windows``` key and type ```cmd``` and hit ```enter```).  
@@ -63,7 +63,7 @@ We use `as np` so that we can refer to numpy with the shortened 'np' instead of 
 
 ## Creating a NumPy array
 
-Vectors and Matrices are critical to understanding signal processing algorithms, we denote vectors as bold lower case $\textbf{v}$ and matrices as bold upper case $\textbf{M}$.  Tensors (informally, matrices with greater than 2 dimensions), are also represented by multidimensional arrays.
+Vectors and Matrices are critical to understanding signal processing algorithms, we denote vectors as bold lower case $\textbf{v}$ and matrices as bold upper case $\textbf{M}$.  Tensors (informally, matrices with greater than 2 dimensions), are also represented by multidimensional arrays.  The starting example are all real elements, but extend to complex numbers as well.  Python/Numpy uses $1j$ or $1i$ to denote imaginary numbers, i.e., $1 + 2j$.  
 
 A numpy array is a grid of values, all of the same type, and is indexed by a tuple of nonnegative integers. 
 
@@ -86,7 +86,7 @@ print(mytensor)
 ```
 
 ## Array Indexing
-The $$n$$th element of a vector may be denoted as $v[n]$ or $v_n$.  We will denote this in unbolded since it is scalar, i.e., $\textbf{v} = [v_0,\dots,v_n,\dots]$.
+The $n$th element of a vector may be denoted as $v[n]$ or $v_n$.  We will denote this in unbolded since it is scalar, i.e., $\textbf{v} = [v_0,\dots,v_n,\dots]$.
 
 You can access the array elements as:
 
@@ -98,7 +98,7 @@ v = np.array([1, 2, 3, 4, 5])
 print(v[1])  # Output: 2
 print(v[2] + v[3])  # Output: 7
 ```
-Likewise for matrices $$M[m,n]$$ or $$M_{m,n}$$ denotes the element in row $$m$$ and column $$n$$.
+Likewise for matrices $M[m,n]$ or $M_{m,n}$ denotes the element in row $m$ and column $n$.
 For 2D arrays, you need to use comma-separated indices:
 
 ```python
@@ -112,6 +112,7 @@ print(M[1, 2])  # Output: 8
 
 ## Array Slicing
 
+Slices of vectors or matrices are denoted $\textbf{v}[m:n]$ or $\textbf_{m:n} $\textbf{M}[m:n,p:q]$ or $\textbf{M}_{m:n,p:q}$ 
 NumPy arrays can be sliced, You can slice a NumPy array like this:
 
 ```python
@@ -193,3 +194,159 @@ print(np.std(arr))  # Output: 1.4142135623730951
 ```
 
 Remember, this is just a basic tutorial and NumPy offers many more features and functions. For a comprehensive understanding, you should refer to the official documentation, https://numpy.org/doc/.
+
+#Linear Algebra Operations
+Here are a few linear algebra operations related to using NumPy arrays in the context of linear algebra:
+
+## Matrix-Vector Multiplication
+3x3 matrix, $\textbf{A}$, and a 3x1 vector, $\textbf{v}$. Perform matrix-vector multiplication.
+
+```python
+import numpy as np
+
+# Define a 3x3 matrix
+A = np.array([[1, 2, 3], 
+              [4, 5, 6], 
+              [7, 8, 9]])
+
+# Define a 3x1 vector
+v = np.array([2, 1, 3])
+
+
+# Multiply the matrix and vector
+result = A @ v
+
+print(result)
+```
+
+## Matrix-Matrix Multiplication
+3x3 matrices, $\textbf{A}$, $\textbf{B}$, compute the element-wise (Hadamard) product $\textbf{A}\circ\textbf{B}$ and the more common matrix-matrix multiplciation $\textbf{A}\textbf{B}$.  When we talk about matrix-matrix multplication, we always mean the latter here, but will be denoted with $\circ$ otherwise.
+```python
+import numpy as np
+
+# Define two 3x3 matrices
+A = np.array([[1, 2, 3], 
+              [4, 5, 6], 
+              [7, 8, 9]])
+
+B = np.array([[10, 11, 12], 
+              [13, 14, 15], 
+              [16, 17, 18]])
+
+# Perform element-wise (Hadamard) product 
+result_dot = A * B
+
+print("Result using dot function:\n", result_dot)
+
+# Perform matrix multiplication using the @ operator
+result_operator = A @ B
+
+print("Result using @ operator:\n", result_operator)
+```
+
+## Transpose and Hermitian
+Compute the transpose, $\textbf{A}^T$, and Hermitian (conjugate transpose), $\textbf{C}^H$ of a matrix.  Note below that $j = \sqrt{-1}$, because I'm an electrical engineer and enjoy annoying folks who use $i$.
+
+```python
+import numpy as np
+
+# Define a Real 3x2 matrix
+A = np.array([[1, 2], 
+              [3, 4], 
+              [5, 6]])
+
+#Complex Portion
+B = 1j * np.array([[7,8],
+                    [9,10],
+                    [11,12]])
+                    
+C = A + B
+
+# Compute the transpose
+A_T = np.transpose(A) #alternatively A_T = A.T
+
+#Hermitian 
+C_H = np.conj(np.transpose(C))
+print(A_T)
+print(C_H)
+```
+
+## Inverse
+Compute the inverse of a matrix, $\textbf{A}^{-1}$.
+
+```python
+import numpy as np
+
+# Define a 3x3 matrix
+A = np.array([[1, 2, 1], 
+              [3, 2, 1], 
+              [1, 1, 2]])
+
+# Compute the inverse
+A_inv = np.linalg.inv(A)
+
+print(A_inv)
+```
+
+## Determinant
+Compute the determinant of a matrix, $\textnormal{det}(\textbf{A})$.
+
+```python
+import numpy as np
+
+# Define a 3x3 matrix
+A = np.array([[1, 2, 3], 
+              [4, 5, 6], 
+              [7, 8, 9]])
+
+# Compute the determinant
+det_A = np.linalg.det(A)
+
+print(det_A)
+```
+
+## Solve the System of Linear Equations 
+$3x + y = 9$ and $x + 2y = 8$.
+
+```python
+import numpy as np
+
+# Define the system's matrix
+A = np.array([[3, 1],
+              [1, 2]])
+
+# Define the constant vector
+b = np.array([9, 8])
+
+# Solve for [x, y]
+x = np.linalg.solve(A, b)
+
+print(x)
+```
+
+#Eigenvalue Decomposition
+Find the eigenvalues and eigenvectors of a matrix, $A = \textbf{V}\textbf{D}\textbf{V}^T$.
+
+```python
+import numpy as np
+
+# Define a 2x2 matrix
+A = np.array([[4, 1], 
+              [2, 3]])
+
+# Compute the eigenvalues and eigenvectors
+D, V = np.linalg.eig(A)
+
+print("Eigenvalues:", D)
+print("Eigenvectors:", V)
+```
+
+Numpy includes just about any linear algebraic operation you would require, definitely check out the documentation [4].  Additionally, more detail on matrix algebra and computations involving them can be found in [1,2].  The original Numpy paper is [3].
+
+Further reading:
+
+[1] Golub, Gene H., and Charles F. Van Loan. Matrix computations. JHU press, 2013.
+[2] Strang, Gilbert. Linear algebra and its applications. 2012.
+[3] Harris, C.R., Millman, K.J., van der Walt, S.J. et al. Array programming with NumPy. Nature 585, 357–362 (2020). DOI: 10.1038/s41586-020-2649-2. (Publisher link).
+[4] https://numpy.org/doc/stable/user/index.html#user
+
