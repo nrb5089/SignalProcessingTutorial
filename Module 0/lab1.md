@@ -45,7 +45,7 @@ In this code, we generate a time variable `t`, and a signal `a` that is a 5Hz si
 
 ## 2. Adding Noise to the Signal
 
-Real-world signals often come with noise. Let's add some random noise, $n\sim \mathcal{N}(\textbf{0},\sigma^2\mathcal{I})$, where $n$ is a Gaussian random vector with mean $\textbf{0} = [0,\dots,0]$ and covariance matrix $\sigma^2\mathbf{I}$, where $\textbf{I}$ is the identity matrix:
+Real-world signals often come with noise. Let's add some random noise, $n\sim \mathcal{N}(\textbf{0},\sigma^2\textbf{I})$, where $n$ is a Gaussian random vector with mean $\textbf{0} = [0,\dots,0]$ and covariance matrix $\sigma^2\mathbf{I}$, where $\textbf{I}$ is the identity matrix:
 
 ```python
 

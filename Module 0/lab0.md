@@ -112,7 +112,7 @@ print(M[1, 2])  # Output: 8
 
 ## Array Slicing
 
-Slices of vectors or matrices are denoted $\textbf{v}[m:n]$ or $\textbf_{m:n} $\textbf{M}[m:n,p:q]$ or $\textbf{M}_{m:n,p:q}$ 
+Slices of vectors or matrices are denoted $\textbf{v}[m:n]$ or $\textbf_{m:n}$, and for matrices, $\textbf{M}[m:n,p:q]$ or $\textbf{M}_{m:n,p:q}$.
 NumPy arrays can be sliced, You can slice a NumPy array like this:
 
 ```python
@@ -324,7 +324,8 @@ x = np.linalg.solve(A, b)
 print(x)
 ```
 
-#Eigenvalue Decomposition
+# Eigenvalue Decomposition
+
 Find the eigenvalues and eigenvectors of a matrix, $A = \textbf{V}\textbf{D}\textbf{V}^T$.
 
 ```python
@@ -346,7 +347,10 @@ Numpy includes just about any linear algebraic operation you would require, defi
 Further reading:
 
 [1] Golub, Gene H., and Charles F. Van Loan. Matrix computations. JHU press, 2013.
+
 [2] Strang, Gilbert. Linear algebra and its applications. 2012.
+
 [3] Harris, C.R., Millman, K.J., van der Walt, S.J. et al. Array programming with NumPy. Nature 585, 357–362 (2020). DOI: 10.1038/s41586-020-2649-2. (Publisher link).
+
 [4] https://numpy.org/doc/stable/user/index.html#user
 
