@@ -145,13 +145,15 @@ axes[1].set_xlabel('frequency (MHz)')
 
 The key to mapping frequency from sample rate in the x-axis tick marks for the spectrum is ```f = np.linspace(-Fs/2,Fs/2,len(A))```.  Remember the FFT utilizes provides the normalized frequency spectrum between $0$ and $2\pi$, but often a centered spectrum is easier to analyze, hence we use ```A = np.fft.fftshift(A)```.  **CAUTION** do not use ```fftshift``` in combination with computations involving the FFT, it will be incorrect.
 
+
+
 ### Simulation vs. Reality
 
-We have a two-sided spectrum here due to the real signal here. Instruments generally show just one side, but keep in mind that these "negative frequencies" that are sometimes referred to as images can cause real-life issues.
+Let's take a moment to elaborate on what was generated, a cosine (or sine) wave consists of a single frequency, therefore in the frequency domain we expect a single point whose peak is proportional to the signal power.  The reason for the two lines here is that the real-valued component (in this case the signal is all-real) has a symmetry about the y-axis (a negative frequency).  This negative frequency, while purely theoretical, must be incorporated in our models for real-life applications where issues with unwanted images get included.
 
 ## 4. Signal Filtering
 
-Filtering is a method to remove certain ranges of frequencies. For example, we could use a simple mean filter (also known as a moving average filter) to smooth our signal:
+Filtering is a method to remove certain ranges of frequencies. For example, we could use a simple mean filter (also known as a moving average filter) to smooth our signal, $\textbf{y} = \textbf{a} * \textbf{h}$:
 
 ```python
 import numpy as np
@@ -167,26 +169,26 @@ n = np.random.normal(0, 0.5, a.shape)
 a = a + n
 
 window_size = 10
-filter_kernel = np.ones(window_size) / window_size
+h = np.ones(window_size) / window_size
 
 # convolve the input signal with the filter kernel
-a_smooth = np.convolve(a, filter_kernel, mode='same')
+y = np.convolve(a, h, mode='same')
 
-plt.plot(t, a_smooth)
+plt.plot(t, y)
 plt.show()
 ```
 
-This applies a moving average filter to our noisy signal and plots the smoothed signal.
+This applies a moving average filter to our noisy signal and plots the smoothed signal.  Convolution is an operation found in various areas of, refer to [1,2] for more details on the discrete time (vector) implementation.
 ![Alt text](../figs/cosine_wave_noise_filtered.png?raw=true)
 
 Remember, this is a very basic introduction. For more sophisticated signal processing tasks, you might want to look at the SciPy library, which provides more specific signal processing functionality. For complex filters, you would use convolution in the frequency domain, or use libraries such as SciPy's `signal` module, which provide ready-to-use filter design and application functions.
 
-Check out some applicatins of filtering... Generate noisy sine waves with a frequency of 200 MHz and 1200 MHz (1.2 GHz) and then apply a low-pass Butterworth filter to it with a cut-off frequency of 500 MHz.
+Generate noisy sine waves with a frequency of 200 MHz and 1200 MHz (1.2 GHz) and then apply a low-pass Butterworth filter to it with a cut-off frequency of 500 MHz.
 
 ```python
 import numpy as np
 import matplotlib.pyplot as plt
-from scipy.signal import butter, lfilter
+from scipy.signal import butter, lfilter, freqz
 plt.close('all')
 
 fft = np.fft.fft
@@ -208,8 +210,12 @@ Ys = ffts(y)
 
 # Design the Butterworth filter
 cutoff = 500e6
-normal_cutoff = cutoff /Fs/2
 b, a = butter(4, Wn = cutoff, btype='low', fs = Fs, analog=False)
+
+#Determine frequency response
+w, h = freqz(b,a, worN = int(len(Ys)), whole = True)
+H = np.fft.fftshift(h)
+# H = np.hstack([np.conj(h[-1:1:-1]),h])
 
 # Apply the filter
 y_filtered = lfilter(b, a, y)
@@ -223,8 +229,26 @@ axes[0].set_ylim([0,300])
 axes[1].plot(f/1e6,np.abs(Ys_filtered))
 axes[1].set_ylim([0,300])
 axes[1].set_xlabel('frequency (MHz)')
+
+fig1,axes1 = plt.subplots(2,1)
+axes1[0].plot(f/1e6, np.abs(H))
+axes1[1].plot(f/1e6, np.angle(H))
+axes1[1].set_xlabel('frequency (MHz)')
 plt.show()
+
 ```
 ![Alt text](../figs/filtered_sine.png?raw=true)
 
+Note in the figure on the bottom that the higher frequency sine wave has been removed.  Here is a look at the frequency response of the filter to provide some more insight.  The top plot shows the magnitude response, which we see that outside our cutoff (or stopband) frequency, 500 MHz, is significantly lower.  The phase response on the bottom, while it may not appear to yield much insight at first, shows that inside the $\pm$ 500 MHz (or the passband) that the phase is "linear".  It is typical in good filter design to produce linear or near-linear phase so that the distortions accumulated while filtering are predictable, i.e. group delay.  Most signal processing texts will go into more detail, see [1,2,3].
 
+![Alt text](../figs/butter_freq_filter_response.png?raw=true)
+
+
+
+References and Further Reading
+
+[1] Alan V. Oppenheim and Ronald W. Schafer. 2009. Discrete-Time Signal Processing (3rd. ed.). Prentice Hall Press, USA.
+
+[2] John G. Proakis and Dimitris G. Manolakis. 1996. Digital signal processing (3rd ed.): principles, algorithms, and applications. Prentice-Hall, Inc., USA.
+
+[3] Harris, Fredric J. Multirate signal processing for communication systems. CRC Press, 2022.

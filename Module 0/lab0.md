@@ -28,13 +28,13 @@ DOSKEY py="<full path>/Python/python.exe"
 DOSKEY npp="<full path>/Notepad++/notepad++.exe"
 ```
 
-At the time of this writing, Python should be in ```C:``` and Notepad++ should be in either ```C:/Program Files``` or ```C:/Program Files x86``` on the associated DEV machines.  Save and/or save and close the batch file.  Type ```mysetup.bat```, this should initialize the cmd prompt to now use your short hand expressions ```py``` and ```npp``` for the respective programs.  Create a new ```.py``` file by typing ```npp hello_world.py```.  If ```Notepad++``` opens up with this new file, this portion works correctly.  Now add ```print('hello world!')``` to your new ```.py``` file.  Save and/or save and close the new ```hello_world.py``` file.  In the CMD Prompt, type ```py hello_world.py```.  If you received a message in the next line ```hello world!```, then everything is working.  
+At the time of this writing, Python should be in ```C:``` and Notepad++ should be in either ```C:/Program Files``` or ```C:/Program Files x86``` on the associated DEV machines.  Save and/or save and close the batch file.  Type ```mysetup.bat```, this should initialize the cmd prompt to now use your short hand expressions ```py``` and ```npp``` for the respective programs.  Create a new ```.py``` file by typing ```npp hello_world.py```.  If ```Notepad++``` opens up with this new file, this portion works correctly.  Now add ```print('hello world!')``` to your new ```.py``` file.  Save and/or save and close the new ```hello_world.py``` file.  In the CMD Prompt, type ```py hello_world.py```.  If you received a message in the next line ```hello world!```, then everything is working.  This is the method by which you can execute ```.py``` files
 
 **Note** : You will have to refresh ```mysetup.bat``` for each new CMD window openned.
 
 # Why Python?
 
-Python is a relatively easy programming language that we use for signal processing demonstration and prototyping of algorithms.  The key mathematics come from operations in linear algebra and concepts in statistics/probability.  We use the analogy of 1D and 2D arrays to correspond to vectors and matrices, respectively.  The following tutorial provides some basic arithmetic and implementation syntax, along with the mathematical equivalent statements.  
+Python is a relatively easy programming language that we use for signal processing demonstration and prototyping of algorithms.  The key mathematics come from operations in linear algebra and concepts in statistics/probability.  We use the analogy of 1D and 2D arrays to correspond to vectors and matrices, respectively.  Ideally, we would do most of our low-level signal processing at the hardware level either via ASICs or FPGAs.   The following tutorial provides some basic arithmetic and implementation syntax, along with the mathematical equivalent statements.  
 
 # Using Numpy Arrays
 
@@ -256,6 +256,10 @@ print(x.conjugate())  # Outputs: (3-4j)
 magnitude = abs(x)
 print(magnitude)  # Outputs: 5.0
 
+#Phase (wrapped)
+phi = np.angle(x)
+print(theta) 
+
 # Addition
 z = x + y
 print(z)  # Outputs: (5+1j)
@@ -275,23 +279,27 @@ print(z)  # Outputs: (-0.15384615384615385+1.2307692307692308j)
 
 You can do other operations like power and roots as well, but these will need to be done in modules like `numpy` or `cmath`.  A complex number is generally represented as: $z = a + bj $, where $ a $ and $ b $ are real numbers, and $ j $ is the imaginary unit with the property $ j^2 = -1 $.
 
-1. **Real part:** $ \Re(z) = a $
+**Real part:** $ \Re(z) = a $
 
-2. **Imaginary part:** $ \Im(z) = b $
+**Imaginary part:** $ \Im(z) = b $
 
-3. **Complex conjugate:** $ z^* = a - bj $
+**Magnitude (or modulus or absolute value) of a complex number:** $ |z| = \sqrt{a^2 + b^2} $
 
-4. **Magnitude (or absolute value) of a complex number:** $ |z| = \sqrt{a^2 + b^2} $
+**Phase:** $ \phi = \arctan(\frac{b}{a}) $
 
-5. **Addition of complex numbers:** if $ z_1 = a + bj $ and $ z_2 = c + dj $, then $ z_1 + z_2 = (a + c) + (b + d)j $
+**Polar Form:** $ z = a + bj = |z|\exp(j\phi) $, which is more commonly used in signal processing.  This also has the alternative Euler formula expression, $ z = |z|(\cos(\phi) + j\sin(\phi)) $
 
-6. **Subtraction of complex numbers:** if $ z_1 = a + bj $ and $ z_2 = c + dj $, then $ z_1 - z_2 = (a - c) + (b - d)j $
+**Complex conjugate:** $ z^* = a - bj $ or $ z^* = |z|\exp(-j\phi) $, note that $ zz^* = |z|^2 $
 
-7. **Multiplication of complex numbers:** if $ z_1 = a + bj $ and $ z_2 = c + dj $, then $ z_1 \cdot z_2 = (ac - bd) + (ad + bc)j $
+**Addition of complex numbers:** if $ z_1 = a + bj $ and $ z_2 = c + dj $, then $ z_1 + z_2 = (a + c) + (b + d)j $
 
-8. **Division of complex numbers:** if $ z_1 = a + bj $ and $ z_2 = c + dj $, then $ \frac{z_1}{z_2} = \frac{(ac + bd)}{(c^2 + d^2)} + \frac{(bc - ad)j}{(c^2 + d^2)} $
+**Subtraction of complex numbers:** if $ z_1 = a + bj $ and $ z_2 = c + dj $, then $ z_1 - z_2 = (a - c) + (b - d)j $
 
-This should cover the basic operations you can perform with complex numbers both in Python and in mathematical notation.
+**Multiplication of complex numbers:** if $ z_1 = a + bj $ and $ z_2 = c + dj $, then $ z_1 \cdot z_2 = (ac - bd) + (ad + bc)j $ or $ z_1z_2 = |z_1||z_2|\exp(j(\phi_1 + \phi_2)) $
+
+**Division of complex numbers:** if $ z_1 = a + bj $ and $ z_2 = c + dj $, then $ \frac{z_1}{z_2} = \frac{(ac + bd)}{(c^2 + d^2)} + \frac{(bc - ad)j}{(c^2 + d^2)} $ or $ \frac{z_1}{z_2} = \frac{|z_1|}{|z_2|}\exp(j(\phi_1 - \phi_2)) $
+
+This should cover the basic operations you can perform with complex numbers both in Python and in mathematical notation for rectangular form.  
 
 ## Transpose and Hermitian
 Compute the transpose, $\textbf{A}^T$, and Hermitian (conjugate transpose), $\textbf{C}^H$ of a matrix.  
