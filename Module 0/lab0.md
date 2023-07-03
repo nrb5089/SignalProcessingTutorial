@@ -3,45 +3,37 @@
 Python should be installed on your machine under the C:\Python
 
 # Recommended Development Environment Setup
+
 This is my environment I use, but feel free to use whatever makes sense.
 
 ## Spyder, Pycharm, or some other IDE
+
 Contact IT for installation.
 
 ## No frills CMD and Notepad++
+
 Open up the ```Command Prompt``` using any method you like (I press the ```Windows``` key and type ```cmd``` and hit ```enter```).  
-	
+
 Create a batch file by typing 
-	
-```notepad mysetup.bat```
-	
+
+```powershell
+notepad mysetup.bat
+```
+
 Place the following text in the batch file (Note that you may need to adjust the paths):
-	
-```
-	@ECHO OFF
-	DOSKEY py="<full path>\Python\python.exe"
-	DOSKEY npp="<full path>\Notepad++\notepad++.exe"
+
+```powershell
+@ECHO OFF
+DOSKEY py="<full path>/Python/python.exe"
+DOSKEY npp="<full path>/Notepad++/notepad++.exe"
 ```
 
-At the time of this writing, Python should be in ```C:``` and Notepad++ should be in either ```C:\Program Files``` or ```C:\Program Files x86``` on the associated DEV machines.  Save and/or save and close the batch file.
+At the time of this writing, Python should be in ```C:``` and Notepad++ should be in either ```C:/Program Files``` or ```C:/Program Files x86``` on the associated DEV machines.  Save and/or save and close the batch file.  Type ```mysetup.bat```, this should initialize the cmd prompt to now use your short hand expressions ```py``` and ```npp``` for the respective programs.  Create a new ```.py``` file by typing ```npp hello_world.py```.  If ```Notepad++``` opens up with this new file, this portion works correctly.  Now add ```print('hello world!')``` to your new ```.py``` file.  Save and/or save and close the new ```hello_world.py``` file.  In the CMD Prompt, type ```py hello_world.py```.  If you received a message in the next line ```hello world!```, then everything is working.  
 
-Type ```mysetup.bat```, this should initialize the cmd prompt to now use your short hand expressions ```py``` and ```npp``` for the respective programs.  Create a new ```.py``` file by typing 
-	
-```npp hello_world.py```
-	
-If ```Notepad++``` opens up with this new file, this portion works correctly.  Now add 
-	
-```print('hello world!')```
-	
-to your new ```.py``` file.  Save and/or save and close the new ```hello_world.py``` file.  In the CMD Prompt, type 
-	
-```py hello_world.py``` 
-	
-if you received a message in the next line ```hello world!```, then everything is working.  
-	
 **Note** : You will have to refresh ```mysetup.bat``` for each new CMD window openned.
-	
+
 # Why Python?
+
 Python is a relatively easy programming language that we use for signal processing demonstration and prototyping of algorithms.  The key mathematics come from operations in linear algebra and concepts in statistics/probability.  We use the analogy of 1D and 2D arrays to correspond to vectors and matrices, respectively.  The following tutorial provides some basic arithmetic and implementation syntax, along with the mathematical equivalent statements.  
 
 # Using Numpy Arrays
@@ -112,7 +104,7 @@ print(M[1, 2])  # Output: 8
 
 ## Array Slicing
 
-Slices of vectors or matrices are denoted $\textbf{v}[m:n]$ or $\textbf_{m:n}$, and for matrices, $\textbf{M}[m:n,p:q]$ or $\textbf{M}_{m:n,p:q}$.
+Slices of vectors or matrices are denoted $\textbf{v}[m:n]$ or $\textbf{v}_{m:n}$, and for matrices, $\textbf{M}[m:n,p:q]$ or $\textbf{M}_{m:n,p:q}$.
 NumPy arrays can be sliced, You can slice a NumPy array like this:
 
 ```python
@@ -195,7 +187,7 @@ print(np.std(arr))  # Output: 1.4142135623730951
 
 Remember, this is just a basic tutorial and NumPy offers many more features and functions. For a comprehensive understanding, you should refer to the official documentation, https://numpy.org/doc/.
 
-#Linear Algebra Operations
+# Linear Algebra Operations
 Here are a few linear algebra operations related to using NumPy arrays in the context of linear algebra:
 
 ## Matrix-Vector Multiplication
@@ -244,8 +236,65 @@ result_operator = A @ B
 print("Result using @ operator:\n", result_operator)
 ```
 
+## Complex Numbers
+
+Python has built-in support for complex numbers, which are written with a "j" as the imaginary part. Here's a quick introduction:
+
+```python
+# Creating complex numbers
+x = 3 + 4j
+y = 2 - 3j
+
+# Real and Imaginary parts
+print(x.real)  # Outputs: 3.0
+print(x.imag)  # Outputs: 4.0
+
+# Conjugate
+print(x.conjugate())  # Outputs: (3-4j)
+
+# Magnitude
+magnitude = abs(x)
+print(magnitude)  # Outputs: 5.0
+
+# Addition
+z = x + y
+print(z)  # Outputs: (5+1j)
+
+# Subtraction
+z = x - y
+print(z)  # Outputs: (1+7j)
+
+# Multiplication
+z = x * y
+print(z)  # Outputs: (18+1j)
+
+# Division
+z = x / y
+print(z)  # Outputs: (-0.15384615384615385+1.2307692307692308j)
+```
+
+You can do other operations like power and roots as well, but these will need to be done in modules like `numpy` or `cmath`.  A complex number is generally represented as: $z = a + bj $, where $ a $ and $ b $ are real numbers, and $ j $ is the imaginary unit with the property $ j^2 = -1 $.
+
+1. **Real part:** $ \Re(z) = a $
+
+2. **Imaginary part:** $ \Im(z) = b $
+
+3. **Complex conjugate:** $ z^* = a - bj $
+
+4. **Magnitude (or absolute value) of a complex number:** $ |z| = \sqrt{a^2 + b^2} $
+
+5. **Addition of complex numbers:** if $ z_1 = a + bj $ and $ z_2 = c + dj $, then $ z_1 + z_2 = (a + c) + (b + d)j $
+
+6. **Subtraction of complex numbers:** if $ z_1 = a + bj $ and $ z_2 = c + dj $, then $ z_1 - z_2 = (a - c) + (b - d)j $
+
+7. **Multiplication of complex numbers:** if $ z_1 = a + bj $ and $ z_2 = c + dj $, then $ z_1 \cdot z_2 = (ac - bd) + (ad + bc)j $
+
+8. **Division of complex numbers:** if $ z_1 = a + bj $ and $ z_2 = c + dj $, then $ \frac{z_1}{z_2} = \frac{(ac + bd)}{(c^2 + d^2)} + \frac{(bc - ad)j}{(c^2 + d^2)} $
+
+This should cover the basic operations you can perform with complex numbers both in Python and in mathematical notation.
+
 ## Transpose and Hermitian
-Compute the transpose, $\textbf{A}^T$, and Hermitian (conjugate transpose), $\textbf{C}^H$ of a matrix.  Note below that $j = \sqrt{-1}$, because I'm an electrical engineer and enjoy annoying folks who use $i$.
+Compute the transpose, $\textbf{A}^T$, and Hermitian (conjugate transpose), $\textbf{C}^H$ of a matrix.  
 
 ```python
 import numpy as np
@@ -289,7 +338,7 @@ print(A_inv)
 ```
 
 ## Determinant
-Compute the determinant of a matrix, $\textnormal{det}(\textbf{A})$.
+Compute the determinant of a matrix, $\textrm{det}(\textbf{A})$.
 
 ```python
 import numpy as np
@@ -324,7 +373,7 @@ x = np.linalg.solve(A, b)
 print(x)
 ```
 
-# Eigenvalue Decomposition
+## Eigenvalue Decomposition
 
 Find the eigenvalues and eigenvectors of a matrix, $A = \textbf{V}\textbf{D}\textbf{V}^T$.
 

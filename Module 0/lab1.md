@@ -1,5 +1,5 @@
 # Transitioning to Signals
-You may be asking at this point why these are not in a Jupyter Notebook, great question, feel free to make versions of these with that, here's the next tutorial...
+
 
 ## Why all the emphasis on arrays?
 
@@ -145,6 +145,9 @@ axes[1].set_xlabel('frequency (MHz)')
 
 The key to mapping frequency from sample rate in the x-axis tick marks for the spectrum is ```f = np.linspace(-Fs/2,Fs/2,len(A))```.  Remember the FFT utilizes provides the normalized frequency spectrum between $0$ and $2\pi$, but often a centered spectrum is easier to analyze, hence we use ```A = np.fft.fftshift(A)```.  **CAUTION** do not use ```fftshift``` in combination with computations involving the FFT, it will be incorrect.
 
+### Simulation vs. Reality
+
+We have a two-sided spectrum here due to the real signal here. Instruments generally show just one side, but keep in mind that these "negative frequencies" that are sometimes referred to as images can cause real-life issues.
 
 ## 4. Signal Filtering
 
