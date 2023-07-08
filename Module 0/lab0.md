@@ -383,7 +383,7 @@ print(x)
 
 ## Eigenvalue Decomposition
 
-Find the eigenvalues and eigenvectors of a matrix, $A = \textbf{V}\textbf{D}\textbf{V}^T$.
+Find the eigenvalues and eigenvectors of a matrix, $A = \textbf{V}\textbf{D}\textbf{V}^{-1}$.
 
 ```python
 import numpy as np
@@ -410,4 +410,99 @@ Further reading:
 [3] Harris, C.R., Millman, K.J., van der Walt, S.J. et al. Array programming with NumPy. Nature 585, 357–362 (2020). DOI: 10.1038/s41586-020-2649-2. (Publisher link).
 
 [4] https://numpy.org/doc/stable/user/index.html#user
+
+
+# Project 
+
+Sure, here are 4 problems related to using the linear algebra capabilities in NumPy, along with their solutions.
+
+## Problem 1: Matrix Operations
+
+Given two matrices `A` and `B`:
+
+`A = np.array([[1, 2], [3, 4], [5, 6]])` 
+
+`B = np.array([[2, 5, 11], [7, 10,3]])` 
+
+Write a Python script to perform the following operations using `@`, `.T`, and `*`:
+
+1. Matrix Multiplication of A and B
+2. Element-wise Multiplication of A's transpose and B
+
+**Output**
+Matrix multiplication of A and B:
+ ```
+ [[16 25 17]
+ [34 55 45]
+ [52 85 73]]
+ ```
+Element-wise multiplication of A's transpose and B:
+ 
+ ```
+ [[ 2 15 55]
+ [14 40 18]]
+ ```
+ 
+## Problem 2: Determinant and Inverse
+
+Given a matrix `C = np.array([[4, 7, 9, 12], [2, 6, 1, 0.5], [1, 10, 1, 4], [5, 4, 6, 1]])`, calculate:
+
+1. The determinant of C
+2. The inverse of C
+
+**Output**
+Determinant of C:
+ `-239.5000000000001`
+Inverse of C:
+ ```
+ [[ 0.434238    2.35908142 -1.39457203 -0.81210856]
+ [-0.11064718 -0.37995825  0.33611691  0.17327766]
+ [-0.32985386 -1.84968685  1.02087683  0.79958246]
+ [ 0.25052192  0.82254697 -0.49686848 -0.43006263]]
+ ```
+ 
+## Problem 3: Eigenvalues and Eigenvectors
+
+For the same matrix `C`, compute:
+
+1. The eigenvalues of C
+2. The eigenvectors of C
+3. Build a diagonal matrix of the vector of eigenvalues `np.diag()`
+4. Reconstruct C using the diagonal matrix and matrix of eigenvectors. The result will be complex.
+
+**Output**
+Eigenvalues of C:
+```
+ [16.06533523+0.j         -5.9476733 +0.j          0.94116903+1.27306956j
+  0.94116903-1.27306956j]
+  ```
+Eigenvectors of C:
+```
+ [[ 0.80738772+0.j          0.50074368+0.j          0.76290198+0.j
+   0.76290198-0.j        ]
+ [ 0.21412914+0.j         -0.09361387+0.j         -0.21182191-0.08063397j
+  -0.21182191+0.08063397j]
+ [ 0.3153099 +0.j          0.47556472+0.j         -0.50580583+0.11882169j
+  -0.50580583-0.11882169j]
+ [ 0.45039254+0.j         -0.71716833+0.j          0.30845146+0.03885582j
+   0.30845146-0.03885582j]]
+```
+Reconstructed C:
+```
+ [[ 4. -1.25389341e-16j  7. +6.32484664e-15j  9. -6.24830406e-15j
+  12. -3.00509803e-17j]
+ [ 2. +1.42874811e-17j  6. +1.86223409e-15j  1. -1.84380385e-15j
+   0.5+4.81857318e-18j]
+ [ 1. +3.03449671e-17j 10. +2.96493222e-15j  1. -2.72124588e-15j
+   4. +2.15705682e-17j]
+ [ 5. -3.99186102e-17j  4. +3.76743004e-15j  6. -3.91085454e-15j
+   1. -2.77193111e-17j]]
+```
+Clean Reconstructed C:
+```
+ [[ 4.   7.   9.  12. ]
+ [ 2.   6.   1.   0.5]
+ [ 1.  10.   1.   4. ]
+ [ 5.   4.   6.   1. ]]
+```
 

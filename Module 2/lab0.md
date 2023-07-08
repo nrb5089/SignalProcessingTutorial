@@ -1,6 +1,13 @@
 # Stochastic Models
 
-Noise is ubiquitous, many problems in signal processing involve stochastic (random) elements.
+Noise is ubiquitous, many problems in signal processing involve stochastic (random) elements.  When using random variables in Python (with NumPy in particular here), it is often required to 'seed' a random number generator, such that the results are reproducible.
+
+```python
+import numpy as np
+np.random.seed(seed = 0)
+```
+
+This sets the random number generator for NumPy seed to `0`.
 
 ## Common Random Variables
 
@@ -89,8 +96,6 @@ Suppose we have a complex number $z = x + jy$ whose components $x\sim \mathcal{N
 
 $$f(z) = \frac{1}{\pi\sigma^2} \exp\left(-\frac{1}{\sigma^2}(z-\mu)^* (z-\mu)\right)$$
 
-
-
 ### Ricean (Rice) and Non-Central Chi-Squared degree 2
 
 A Rician or Rice random variable, denoted $x\sim Rice(v,\sigma)$ is commonly used in wireless communications to model the distribution of signal amplitudes when there is a dominant line of sight signal along with some reflected signals.  Its probability density function is:
@@ -108,7 +113,7 @@ A non-central chi-squared distribution is a generalization of the chi-squared di
 
 The probability density function (PDF) of a non-central chi-square distribution with k degrees of freedom and non-centrality parameter λ is:
 
-$$f(x;k,\lambda) = \frac{1}{2} e^{-(x+\lambda)/2}(\frac{x}{\lambda})^{k/4-1/2}I_{k-2}(\sqrt{\lambda x})$$
+$$f(x;k,\lambda) = \frac{1}{2} \exp\left(-(x+\lambda)/2\right)\left(\frac{x}{\lambda}\right)^{k/4-1/2}I_{k-2}\left(\sqrt{\lambda x}\right)$$
 
 where:
 - $x$ is the variable
@@ -118,7 +123,7 @@ where:
 
 For a non-central chi-square distribution with two degrees of freedom ($k=2$), the non-central parameter $\lambda$ is equal to the square of the sum of the means of the two normally distributed random variables that are squared to create the chi-square distribution.
 
-$$f(x;k=2,\lambda) = \frac{1}{2} e^{-(x+\lambda)/2}I_{0}(\sqrt{\lambda x})$$
+$$f(x;k=2,\lambda) = \frac{1}{2} \exp\left(-(x+\lambda)/2\right)I_{0}\left(\sqrt{\lambda x}\right)$$
 
 **So What?** 
 
@@ -126,6 +131,40 @@ The modulus of $z\sim\mathcal{CN}(\mu,\sigma^2)$, $|z| = \sqrt{x^2 + y^2}$, is a
 
 The product of $|z|^2 = z^*z$ is a noncentral chi-squared random variable with degree 2 ($k = 2$) and noncentrality parameter $\lambda = \frac{2}{\sigma^2}(\mu_x^2 + \mu_y^2)$.  
 
-Each distribution has its own set of trade-offs for various noisy signal measurement applications.
+Each distribution has its own set of trade-offs for various noisy signal measurement applications.  Check out the last chapter of [1], Chapter 15 in [3], or the chapter on detection in [2] for some examples.
 
+Further Reading:
 
+[1] Kay, Steven M. Fundamentals of statistical signal processing: estimation theory. Prentice-Hall, Inc., 1993.
+
+[2] Richards, Mark A. Fundamentals of radar signal processing. McGraw-Hill Education, 2014.
+
+[3] Scheer, Jim, and William A. Holm. "Principles of modern radar." (2010): 3-4.
+
+# Project
+
+## Problem 1
+
+Plot the density function and histgram of 10000 samples using a combination of of two Gaussian random variables.
+```python
+import numpy as np
+from scipy.special import i0
+import matplotlib.pyplot as plt
+plt.close('all')
+
+def f(x,lam): return  1/2 * np.exp(-(x+lam)/2)*i0(np.sqrt(lam*x))
+# def randcn(N): return 1/np.sqrt(2) * (np.random.randn(N) + 1j * np.random.randn(N))
+sigma = 2.4
+mu_x = 7
+mu_y = 4
+lam = 2*(mu_x**2 + mu_y**2)/sigma**2
+# lam = (mu_x**2 + mu_y**2)
+x = np.linspace(0,200,10000)
+dist = f(x,lam)
+samples = (mu_x + sigma/np.sqrt(2) * np.random.randn(100000))**2 + (mu_y + sigma/np.sqrt(2) * np.random.randn(100000))**2
+samples_ac = np.random.noncentral_chisquare(2,lam,100000)
+plt.figure(0)
+plt.plot(x,f(x,lam))
+plt.hist(samples, bins=1000, density=True)
+plt.hist(samples_ac, bins=1000, density=True)
+```
