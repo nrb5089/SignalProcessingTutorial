@@ -145,7 +145,7 @@ Further Reading:
 
 ## Problem 1
 
-Plot the density function and histgram of 10000 samples using a combination of of two Gaussian random variables.
+Plot the density function and histgram of 10000 samples using a combination of of two standard Gaussian random variables.
 ```python
 import numpy as np
 from scipy.special import i0
@@ -153,18 +153,32 @@ import matplotlib.pyplot as plt
 plt.close('all')
 
 def f(x,lam): return  1/2 * np.exp(-(x+lam)/2)*i0(np.sqrt(lam*x))
-# def randcn(N): return 1/np.sqrt(2) * (np.random.randn(N) + 1j * np.random.randn(N))
+
+def randcn(N): return 1/np.sqrt(2) * (np.random.randn(N) + 1j * np.random.randn(N))
 sigma = 2.4
 mu_x = 7
 mu_y = 4
-lam = 2*(mu_x**2 + mu_y**2)/sigma**2
+lam = (mu_x**2 + mu_y**2)
 # lam = (mu_x**2 + mu_y**2)
-x = np.linspace(0,200,10000)
-dist = f(x,lam)
-samples = (mu_x + sigma/np.sqrt(2) * np.random.randn(100000))**2 + (mu_y + sigma/np.sqrt(2) * np.random.randn(100000))**2
-samples_ac = np.random.noncentral_chisquare(2,lam,100000)
+x = np.linspace(0,150,10000)
+samples =  np.abs(mu_x + 1j*mu_y + np.sqrt(2) * randcn(1000000))**2
+
 plt.figure(0)
 plt.plot(x,f(x,lam))
 plt.hist(samples, bins=1000, density=True)
-plt.hist(samples_ac, bins=1000, density=True)
+
+
+
+def randcn(N): return 1/np.sqrt(2) * (np.random.randn(N) + 1j * np.random.randn(N))
+sigma = 2.4
+mu_x = 7
+mu_y = 4
+lam = (mu_x**2 + mu_y**2)
+# lam = (mu_x**2 + mu_y**2)
+x = np.linspace(0,150,10000)
+samples1 =  sigma**2/2 * np.abs(mu_x + 1j*mu_y + randcn(1000000))**2
+
+plt.figure(1)
+plt.plot(sigma**2/2 * x,2/sigma**2 *f(2/sigma**2 *x,2/sigma**2 * lam))
+plt.hist(samples1, bins=1000, density=True)
 ```
