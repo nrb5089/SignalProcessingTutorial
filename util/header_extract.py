@@ -82,12 +82,14 @@ def extract_headers(input_files, output_file):
 					# If we're not inside a Python code block, process the headers
 					if not inside_python_block:
 						if line.startswith("# "):
+							outfile.write('\n')
 							outfile.write(line[2:])
 						elif line.startswith("## "):
+							outfile.write('\n')
 							outfile.write(line[3:])
 						elif line.startswith("### "):
+							outfile.write('\n')
 							outfile.write(line[4:])
-
 			# Add a newline between files for better separation
 			outfile.write("\n")
 
