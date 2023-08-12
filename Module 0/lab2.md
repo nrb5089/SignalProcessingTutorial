@@ -171,17 +171,62 @@ In this tutorial, we saw how to represent a signal in baseband IQ form and passb
 
 ## Power
 
+**Continuous Domain (Analog Signals):**
 
-## Amplify or Attenuate
+For a continuous-time signal $x(t)$, the **power** is defined as the average power over an interval. 
+
+For non-periodic signals, the average power $P$ over all time is given by:
+$ P = \lim_{T \to \infty} \frac{1}{2T} \int_{-T}^{T} |x(t)|^2 \, dt$
+
+For periodic signals with period $T_0$, the average power $P$ is:
+$P = \frac{1}{T_0} \int_{0}^{T_0} |x(t)|^2 \, dt$
+
+Where:
+- $x(t)$ is the signal.
+- $T_0$ is the period of the signal.
+
+**Discrete Domain (Digital Signals):**
+
+For a discrete-time signal $x[n]$, the power is similarly defined. 
+
+For non-periodic sequences, the average power $P$ over all time is:
+$P = \lim_{N \to \infty} \frac{1}{2N + 1} \sum_{n=-N}^{N} |x[n]|^2$
+
+For periodic sequences with period \( N_0 \), the average power $P$ is:
+$P = \frac{1}{N_0} \sum_{n=0}^{N_0-1} |x[n]|^2$
+
+Where:
+- $x[n]$ is the signal.
+- $N_0$ is the period of the sequence.
+
+In plain English, sum of squared absolute value of elements averaged over the length of the sequence.  A scaling factor $P$ may be applied to a vector/array in order to obtain an "amplification" or "attenuation".
 
 ```python
+
 import numpy as np
+import matplotlib.pyplot as plt
 
-amplification_factor = np.sqrt(10)
+# Time variable
+t = np.linspace(0, 1, 500, endpoint=False)
 
+#Signal Power
+P = 2
 
+# A 5 Hz waveform
+a = np.sqrt(P) * np.cos(2 * np.pi * 5 * t)
+
+power_a = np.sum(np.abs(a)^2)/len(a)
 
 ```
+
+## Notes:
+
+1. The power of a signal represents the energy per unit of time. 
+
+2. If a continuous or discrete signal's energy is finite, and its duration is infinite, then we speak of the signal's power rather than its energy.
+
+3. If the power is finite for a signal that extends from $-\infty$ to $\infty$, then the signal is referred to as a power signal. If the energy is finite but the power is infinite, the signal is called an energy signal.
+
 
 ## Noise Models
 
@@ -221,6 +266,46 @@ sigma = np.sqrt(k * T * NF * B)
 
 ```
 
+$\sigma^2$ is the noise **variance**, and when compared to the signal power, $P$ provides the **Signal-to-Noise Ratio (SNR)**, often represented by $\chi$.  
+
+$$ \chi = \frac{P}{\sigma^2} $$
+
+Interference may be causing additional noise $\sigma_i^2$ from an $i$th source, the **Signal-to-Interference-plus-Noise Ratio (SINR)** is 
+
+$$ \frac{P}{\sigma^2 + \sigma_1^2 + \dots + \sigma_i + \dots}
+
+Note that interference models are generally much more complex.
+
+Building from our example from lab1, if all noise is in-band, i.e. AWGN:
+
+```python
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Time variable
+t = np.linspace(0, 1, 500, endpoint=False)
+
+#Signal Power
+P = 1
+
+# A 5 Hz waveform
+a = np.sqrt(P) * np.cos(2 * np.pi * 5 * t)
+
+#Noise variances
+sigmas = [.1, 1, 10]
+
+fig,ax = plt.subplots(3,1)
+for ii,sigma in enumerate(sigmas):
+    n = sigma * np.random.randn(len(a))
+    a = a + n
+    ax[ii].plot(t, a, label = f'SNR: {int(10*np.log10(P/sigma))}')
+    ax[ii].legend(loc = 'lower right', fontsize = 8)
+
+plt.show()
+```
+
+![Alt text](../figs/snrdemo.png?raw=true)
 
 
 

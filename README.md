@@ -90,7 +90,7 @@ Passband IQ Representation
 
 Power
 
-Amplify or Attenuate
+Notes:
 
 Noise Models
 
