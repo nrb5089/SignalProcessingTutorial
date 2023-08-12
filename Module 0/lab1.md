@@ -18,7 +18,7 @@ Signal processing involves various operations such as filtering, convolution, Fo
 import numpy as np
 ```
 
-## 1. Generating a Simple Signal
+## Generating a Simple Signal
 
 A simple signal could be a sine wave. To generate a sine wave:
 
@@ -43,7 +43,7 @@ In this code, we generate a time variable `t`, and a signal `a` that is a 5Hz si
 
 ![Alt text](../figs/cosine_wave.png?raw=true)
 
-## 2. Adding Noise to the Signal
+## Adding Noise to the Signal
 
 Real-world signals often come with noise. Let's add some random noise, $n\sim \mathcal{N}(\textbf{0},\sigma^2\textbf{I})$, where $n$ is a Gaussian random vector with mean $\textbf{0} = [0,\dots,0]$ and covariance matrix $\sigma^2\mathbf{I}$, where $\textbf{I}$ is the identity matrix:
 
@@ -86,7 +86,7 @@ In summary:
 
 In signal processing, we often convert signals from the time domain to the frequency domain (and vice versa) because certain types of analysis and processing are easier to perform in the frequency domain. This transformation is typically done using a mathematical technique called the Fourier transform.
 
-## 3. Fourier Transform
+## Fourier Transform
 
 Fourier transform is a way to transform a signal from time domain to frequency domain (roughly speaking). We can use the `np.fft.fft` function to compute the one-dimensional n-point discrete Fourier Transform (DFT).  We use ```np.abs``` to compute the absolute value of each element in the array to get what is called the magnitude response of the spectrum:
 
@@ -151,7 +151,7 @@ The key to mapping frequency from sample rate in the x-axis tick marks for the s
 
 Let's take a moment to elaborate on what was generated, a cosine (or sine) wave consists of a single frequency, therefore in the frequency domain we expect a single point whose peak is proportional to the signal power.  The reason for the two lines here is that the real-valued component (in this case the signal is all-real) has a symmetry about the y-axis (a negative frequency).  This negative frequency, while purely theoretical, must be incorporated in our models for real-life applications where issues with unwanted images get included.
 
-## 4. Signal Filtering
+## Signal Filtering
 
 Filtering is a method to remove certain ranges of frequencies. For example, we could use a simple mean filter (also known as a moving average filter) to smooth our signal, $\textbf{y} = \textbf{a} * \textbf{h}$:
 
@@ -244,6 +244,77 @@ Note in the figure on the bottom that the higher frequency sine wave has been re
 ![Alt text](../figs/butter_freq_filter_response.png?raw=true)
 
 
+## Multi-Rate Signal Processing
+
+Imagine you're at a sports game and you want to capture the most crucial moments, both as photographs and videos. 
+
+1. **Photographs (Lower Rate):** You snap a few photos occasionally — maybe one every few minutes. This is analogous to "down-sampling" or "decimation" in multi-rate signal processing. You're capturing fewer frames over a certain period, thereby reducing the "data rate."
+
+2. **Videos (Higher Rate):** Now, when there's a crucial play, you switch to recording a video at 60 frames per second. Here, you're capturing a lot of frames in a short amount of time. This is similar to "up-sampling" or "interpolation," where you increase the data rate.
+
+In the world of digital signal processing, "sampling" is like taking these photos or videos. It's how we convert real-world signals (like sound or radio waves) into digital data that computers and electronics can understand.  Just like in our sports game scenario, sometimes we want to process some parts of a signal at a higher "frame rate" (or data rate) because there's more happening there. Other times, when there's less happening, we might choose a lower rate to save on data and processing power. 
+
+**Why Do We Do Multi-Rate Signal Processing?**
+
+1. **Efficiency:** By processing signals at rates that match their content, we can save computational resources, storage, and bandwidth.
+ 
+2. **Flexibility:** Multi-rate processing allows us to design systems that can adapt to different situations. Think of a music streaming service that switches to a lower quality (rate) when your internet connection is weak and a higher quality when it's strong.
+
+3. **Quality:** Sometimes, to achieve certain results (like filtering out noise or other unwanted parts of a signal), it's beneficial to first increase the rate of the signal, process it, and then bring it back down.
+
+In Summary:
+
+Multi-rate digital signal processing is like having a camera that can switch between taking occasional photos and shooting high-frame-rate videos, depending on what's happening. It's about adapting the "rate" of processing to best match the signal's content or the system's requirements, leading to more efficient and flexible systems. Refer to [3] for more details.
+
+### Decimation (Downsampling)
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.signal import butter, lfilter, freqz
+plt.close('all')
+
+fft = np.fft.fft
+def ffts(x): return np.fft.fftshift(fft(x))
+
+# Generate a noisy sine wave
+fc1 = 200e6 #Center frequency, 200 MHz
+fc2 = 1200e6 #Center frequency, 300 MHz
+Fs = 10e9 #Sampling frequency, 10 GHz (10 GSps)
+ds_fac = 10 #Decimation (Downsample) factor
+Fs_dec = int(Fs/10)
+
+
+y1 = np.sin(2*np.pi * fc1 * np.arange(500)/Fs)
+y2 = np.sin(2*np.pi * fc2 * np.arange(500)/Fs)
+
+y = y1 + y2
+
+# Design the Butterworth filter
+cutoff = 500e6
+b, a = butter(4, Wn = cutoff, btype='low', fs = Fs, analog=False)
+
+y1_dec = y1[::ds_fac]
+y_dec = y[::ds_fac]
+y_filtered = lfilter(b, a, y)
+y_filtered_dec = y_filtered[::ds_fac]
+
+
+
+fig,axes = plt.subplots()
+axes.plot(y1_dec)
+axes.plot(y_dec)
+axes.plot(y_filtered_dec)
+axes.legend(['Original','Decimated','Filtered, then Decimated'])
+axes.set_ylim([-3,3])
+axes.set_xlabel('sample')
+plt.show()
+```
+![Alt text](../figs/filter_decimation.png?raw=true)
+
+### Interpolation (Upsampling*)
+
+*More than just inserting zeros...
 
 References and Further Reading
 

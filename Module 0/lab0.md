@@ -2,7 +2,7 @@
 
 Python should be installed on your machine under the C:\Python
 
-# Recommended Development Environment Setup
+## Recommended Development Environment Setup
 
 This is my environment I use, but feel free to use whatever makes sense.
 
@@ -36,7 +36,7 @@ At the time of this writing, Python should be in ```C:``` and Notepad++ should b
 
 Python is a relatively easy programming language that we use for signal processing demonstration and prototyping of algorithms.  The key mathematics come from operations in linear algebra and concepts in statistics/probability.  We use the analogy of 1D and 2D arrays to correspond to vectors and matrices, respectively.  Ideally, we would do most of our low-level signal processing at the hardware level either via ASICs or FPGAs.   The following tutorial provides some basic arithmetic and implementation syntax, along with the mathematical equivalent statements.  
 
-# Using Numpy Arrays
+## Using Numpy Arrays
 
 NumPy is a Python library used for working with arrays. It also has functions for working in the domain of linear algebra, fourier transform, and matrices.
 
