@@ -6,8 +6,47 @@ Picture it as a magical music box: you turn the crank (input a frequency), and o
 
 Welcome to the rock-and-roll world of Direct Digital Synthesis!
 
-![Screenshot (1)](../figs/dds_m1_lab1/Screenshot%20(1).png?raw=true)
+![Screenshot](../figs/dds_m1_lab1/Screenshot%20(3).png?raw=true)
 
+![Screenshot](../figs/dds_m1_lab1/Screenshot%20(4).png?raw=true)
+
+![Screenshot](../figs/dds_m1_lab1/Screenshot%20(5).png?raw=true)
+
+![Screenshot](../figs/dds_m1_lab1/Screenshot%20(6).png?raw=true)
+
+![Screenshot](../figs/dds_m1_lab1/Screenshot%20(7).png?raw=true)
+
+![Screenshot](../figs/dds_m1_lab1/Screenshot%20(8).png?raw=true)
+
+![Screenshot](../figs/dds_m1_lab1/Screenshot%20(9).png?raw=true)
+
+![Screenshot](../figs/dds_m1_lab1/Screenshot%20(10).png?raw=true)
+
+![Screenshot](../figs/dds_m1_lab1/Screenshot%20(11).png?raw=true)
+
+![Screenshot](../figs/dds_m1_lab1/Screenshot%20(12).png?raw=true)
+
+![Screenshot](../figs/dds_m1_lab1/Screenshot%20(13).png?raw=true)
+
+![Screenshot](../figs/dds_m1_lab1/Screenshot%20(14).png?raw=true)
+
+![Screenshot](../figs/dds_m1_lab1/Screenshot%20(15).png?raw=true)
+
+![Screenshot](../figs/dds_m1_lab1/Screenshot%20(16).png?raw=true)
+
+![Screenshot](../figs/dds_m1_lab1/Screenshot%20(17).png?raw=true)
+
+![Screenshot](../figs/dds_m1_lab1/Screenshot%20(19).png?raw=true)
+
+![Screenshot](../figs/dds_m1_lab1/Screenshot%20(20).png?raw=true)
+
+![Screenshot](../figs/dds_m1_lab1/Screenshot%20(21).png?raw=true)
+
+![Screenshot](../figs/dds_m1_lab1/Screenshot%20(22).png?raw=true)
+
+![Screenshot](../figs/dds_m1_lab1/Screenshot%20(23).png?raw=true)
+
+Update the ```tb.v``` file with the code below
 
 ```verilog
 module tb;
@@ -44,6 +83,48 @@ end
 endmodule
 ```
 
+
+![Screenshot](../figs/dds_m1_lab1/Screenshot%20(24).png?raw=true)
+
+Click **Run Simulation** along the left side
+
+![Screenshot](../figs/dds_m1_lab1/Screenshot%20(25).png?raw=true)
+
+![Screenshot](../figs/dds_m1_lab1/Screenshot%20(26).png?raw=true)
+
+![Screenshot](../figs/dds_m1_lab1/Screenshot%20(27).png?raw=true)
+
+![Screenshot](../figs/dds_m1_lab1/Screenshot%20(28).png?raw=true)
+
+![Screenshot](../figs/dds_m1_lab1/Screenshot%20(29).png?raw=true)
+
+![Screenshot](../figs/dds_m1_lab1/Screenshot%20(30).png?raw=true)
+
+![Screenshot](../figs/dds_m1_lab1/Screenshot%20(31).png?raw=true)
+
+![Screenshot](../figs/dds_m1_lab1/Screenshot%20(32).png?raw=true)
+
+![Screenshot](../figs/dds_m1_lab1/Screenshot%20(33).png?raw=true)
+
+![Screenshot](../figs/dds_m1_lab1/Screenshot%20(34).png?raw=true)
+
+![Screenshot](../figs/dds_m1_lab1/Screenshot%20(35).png?raw=true)
+
+![Screenshot](../figs/dds_m1_lab1/Screenshot%20(36).png?raw=true)
+
+![Screenshot](../figs/dds_m1_lab1/Screenshot%20(37).png?raw=true)
+
+![Screenshot](../figs/dds_m1_lab1/Screenshot%20(38).png?raw=true)
+
+![Screenshot](../figs/dds_m1_lab1/Screenshot%20(39).png?raw=true)
+
+![Screenshot](../figs/dds_m1_lab1/Screenshot%20(40).png?raw=true)
+
+![Screenshot](../figs/dds_m1_lab1/Screenshot%20(41).png?raw=true)
+
+![Screenshot](../figs/dds_m1_lab1/Screenshot%20(42).png?raw=true)
+
+Update ```tb.v``` with the following code:
 
 ```verilog
 module tb;
@@ -83,7 +164,7 @@ initial begin
     aresetn <= 1'b1; //Active Low
     
     //***************************************************UPDATE************
-    PHZ_INC_tdata <= 16'b0000_1000_0000_0000;
+    PHZ_INC_tdata <= 16'b0001_0000_0000_0000;
     PHZ_INC_tvalid <= 1'b1;
     //*********************************************************************
     
@@ -98,6 +179,26 @@ end
 endmodule
 ```
 
+Click **Run Simulation** and observe that you get 6.25 MHz sine wave.  Adjust zoom and settings as usual.
+
+
+![Screenshot](../figs/dds_m1_lab1/Screenshot%20(43).png?raw=true)
+
+![Screenshot](../figs/dds_m1_lab1/Screenshot%20(44).png?raw=true)
+
+![Screenshot](../figs/dds_m1_lab1/Screenshot%20(45).png?raw=true)
+
+![Screenshot](../figs/dds_m1_lab1/Screenshot%20(46).png?raw=true)
+
+Click **Save**, observe that ```top_level.v``` is now encompassing of all project elements in the hierarchy.
+
+![Screenshot](../figs/dds_m1_lab1/Screenshot%20(52).png?raw=true)
+
+Copy paste from ```dds_system_wrapper.v``` and paste it into ```top_level.v```.  The code is included after the figures to avoid issues.
+
+![Screenshot](../figs/dds_m1_lab1/Screenshot%20(47).png?raw=true)
+
+![Screenshot](../figs/dds_m1_lab1/Screenshot%20(48).png?raw=true)
 
 ```verilog
 module top_level
@@ -137,3 +238,4 @@ module top_level
         .aresetn(aresetn));
 endmodule
 ```
+
