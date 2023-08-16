@@ -45,3 +45,27 @@ The more specific design series from AMD Xilinx is the RFSoC.  These devices pos
 
 https://www.rfsocbook.com/
 
+
+## Task 1
+Complete the Zynq Ultrascale+ MPSoC Embedded Design Tutorials at 
+
+https://xilinx.github.io/Embedded-Design-Tutorials/docs/2022.1/build/html/docs/Introduction/ZynqMPSoC-EDT/ZynqMPSoC-EDT.html
+
+Resource files found here:
+
+https://github.com/Xilinx/Embedded-Design-Tutorials/tree/master/docs/Introduction/ZynqMPSoC-EDT/ref_files
+
+You may skip the sections ```Building and Debugging Linux Applications```, ```Boot and Configuration```, and ```Secure Boot``` for now.  Note that in the first tutorial where you build a project, ```Zynq UltraScale+ MPSoC Processing System Configuration with the Vivado Design Suite```, after the step to create the **HDL Wrapper**, click on ```Generate Bitstream``` to start this process, it will take several minutes.  While the tutorial is correct that there is no PL design in this first project, the team has had issues building the project in Vitis without doing the ```Generate Bitstream``` step.
+
+## Task 2
+Complete the Zynq Book tutorials (http://www.zynqbook.com/download-tuts.html) for the listed sections.  Some are similar (or repeats) of Task 1, **iteration is key to learning the workflow**. 
+- [ ] 1A: There may be differences in the newer versions of Vivado
+- [ ] 1B: Use the ```Zynq MPSoC Processing System```, not the ```ZYNQ7 Processing System```.  These tutorials were made for the previous version.
+- [ ] 1C: Xilinx SDK is replaced with Vitis, use this in place.
+- [ ] 2A:
+- [ ] 2B:
+- [ ] 2C:
+- [ ] 2D:
+- [ ] 3 (optional): Vivado HLS is now replaced with Vitis HLS.
+- [ ] 4A
+- [ ] 5A
