@@ -6,7 +6,7 @@ Picture it as a magical music box: you turn the crank (input a frequency), and o
 
 Welcome to the rock-and-roll world of Direct Digital Synthesis!
 
-![Alt text]("../figs/dds_m1_lab1/Screenshot (1).png"?raw=true)
+![Alt text]("../figs/dds_m1_lab1/Screenshot%20(1).png"?raw=true)
 
 
 ```verilog
