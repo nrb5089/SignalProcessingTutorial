@@ -106,6 +106,14 @@ Zynq
 
 RF SoC
 
+Task 1
+
+Task 2
+
+# Module 1/lab1.md
+
+Direct Digital Synthesis (DDS)
+
 # Module 2/lab0.md
 
 Stochastic Models
