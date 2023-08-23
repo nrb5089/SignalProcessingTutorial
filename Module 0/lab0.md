@@ -414,7 +414,7 @@ Further reading:
 
 # Project 
 
-Sure, here are 4 problems related to using the linear algebra capabilities in NumPy, along with their solutions.
+Here are 3 problems related to using the linear algebra capabilities in NumPy, along with their solutions.
 
 ## Problem 1: Matrix Operations
 

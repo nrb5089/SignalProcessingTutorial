@@ -125,7 +125,7 @@ sequence = np.array([1,1,1,1,1,-1,-1,1,1,-1,1,-1,1]) #13 Bit Barker Code
 # Analog/Digital
 bpsk_signal = np.repeat(sequence,samples_per_chip)
 
-fig,ax = plt.subplots(1,2)
+fig,ax = plt.subplots()
 ax[0].plot(t,np.real(bpsk_signal))
 ax[0].plot(t,np.imag(bpsk_signal))
 ax[0].set_xlabel('Time (seconds)')
@@ -149,9 +149,11 @@ $$ s(t) = I(t)\cos(2\pi f_c t) - Q(t)\sin(2\pi f_c t) $$
 
 where $f_c$ is the carrier frequency.
 
-In Python, you can modulate a baseband IQ signal to a passband signal like this:
+In Python, you can modulate a baseband IQ signal to a passband signal as shown below, note that I and Q are just placeholders and need to be defined for the code to work:
 
 ```python
+
+
 # Carrier frequency
 fc = 10e6
 
@@ -272,7 +274,7 @@ $$ \chi = \frac{P}{\sigma^2} $$
 
 Interference may be causing additional noise $\sigma_i^2$ from an $i$th source, the **Signal-to-Interference-plus-Noise Ratio (SINR)** is 
 
-$$ \frac{P}{\sigma^2 + \sigma_1^2 + \dots + \sigma_i + \dots}
+$$ \frac{P}{\sigma^2 + \sigma_1^2 + \dots + \sigma_i + \dots} $$
 
 Note that interference models are generally much more complex.
 

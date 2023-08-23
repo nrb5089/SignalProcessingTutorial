@@ -316,6 +316,36 @@ plt.show()
 
 *More than just inserting zeros...
 
+Imagine you are looking at a connect-the-dots puzzle, but some of the dots are missing. You can still visualize the shape or picture by drawing straight lines between the dots you can see, even if there are gaps.  Interpolation is like filling in those missing dots so that the picture is more complete and flows smoothly. Instead of having jagged straight lines, you can get a curve or a smoother line that makes more sense and provides a better idea of the whole picture.  For a simpler example, think about the temperature readings at noon over a week. If you only have readings for Monday, Wednesday, and Friday, but you want to guess (or estimate) what the temperature was on Tuesday and Thursday, you could use the readings from the days you know to make a good guess. Interpolation is the mathematical way of making that guess.  In essence, interpolation is about using what you know to estimate what you don't know. It helps in filling gaps or making smoother transitions between known points or values.
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+plt.close('all')
+
+def linear_interpolation(x,upsample_factor):
+	xnew = []
+	for ii in np.arange(len(x)-1):
+		x_new_ii = np.linspace(x[ii],x[ii+1],upsample_factor)
+		xnew.extend(x_new_ii)
+	return xnew
+
+
+x = [1,4,5,3,1,10]
+t = np.arange(len(x))
+upsample_factor = 10
+
+xnew = linear_interpolation(x, upsample_factor)
+tnew = linear_interpolation(t,upsample_factor)
+fig,axes = plt.subplots()
+
+axes.plot(tnew,xnew)
+axes.plot(t,x,'.')
+axes.legend(['Interpolated Signal','Original Samples'])
+```
+
+
+![Alt text](../figs/linear_interp_simple.png?raw=true)
 References and Further Reading
 
 [1] Alan V. Oppenheim and Ronald W. Schafer. 2009. Discrete-Time Signal Processing (3rd. ed.). Prentice Hall Press, USA.
@@ -323,3 +353,69 @@ References and Further Reading
 [2] John G. Proakis and Dimitris G. Manolakis. 1996. Digital signal processing (3rd ed.): principles, algorithms, and applications. Prentice-Hall, Inc., USA.
 
 [3] Harris, Fredric J. Multirate signal processing for communication systems. CRC Press, 2022.
+
+
+# Project
+
+## Problem 1: Efficient Filtering
+
+```python
+import numpy as np
+from scipy.signal import butter, lfilter, freqz, firwin
+import matplotlib.pyplot as plt
+plt.close('all')
+fft = np.fft.fft
+ifft = np.fft.ifft
+
+def ffts(x): return np.fft.fftshift(np.fft.fft(x))
+
+# Generate a noisy sine wave
+fc1 = 200e6 #Center frequency, 200 MHz
+fc2 = 1200e6 #Center frequency, 1200 MHz
+Fs = 10e9 #Sampling frequency, 10 GHz (10 GSps)
+
+sigma = 2 #Noise standard deviation
+
+x1 = np.sin(2*np.pi * fc1 * np.arange(500)/Fs)
+x2 = np.sin(2*np.pi * fc2 * np.arange(500)/Fs)
+
+x = x1 + x2 + sigma * np.random.randn(len(x1))
+
+# Design the FIR filter
+cutoff = 500e6
+h = firwin(num_taps, cutoff / (0.5 * Fs))
+
+
+#Determine convolution output length
+num_zeros_pad_x = ?
+num_zeros_pad_h = ?
+convolution_output_length = ?
+x_prefiltered = np.concatenate([x,np.zeros(num_zeros_pad_x)])
+h_prefiltered = np.concatenate([h,np.zeros(num_zeros_pad_h)])
+
+#Perform convolution via FFT
+X_prefiltered = ? #FFT x
+H_prefiltered = ? #FFT h
+X_fft_filtered = ? #Perform the filtering
+x_fft_filtered = ? #IFFT of filtered output
+
+#Perform linear convolution
+x_filtered = np.convolve(?,?,mode = 'full')
+
+
+
+freq = np.linspace(-Fs/2,Fs/2,convolution_output_length)
+fig,axes = plt.subplots(3,1,sharex = True)
+axes[0].plot(freq, np.abs(ffts(x_prefiltered)))
+axes[1].plot(freq, np.abs(ffts(x_filtered)))
+axes[2].plot(freq, np.abs(ffts(x_fft_filtered)))
+```
+
+The expected output is 
+
+
+![Alt text](../figs/fft_conv_problem_output.png?raw=true)
+
+## Problem 2: 
+
+## Problem 3:
