@@ -344,8 +344,69 @@ axes.plot(t,x,'.')
 axes.legend(['Interpolated Signal','Original Samples'])
 ```
 
-
 ![Alt text](../figs/linear_interp_simple.png?raw=true)
+
+
+
+The Nyquist-Shannon sampling theorem provides a prescription for how to perfectly reconstruct a continuous-time signal from its samples, under certain conditions. Specifically, it states that a band-limited signal \( x(t) \) that contains no frequency components higher than \( f_{\text{max}} \) can be completely reconstructed from its samples if it is sampled at a rate \( f_s > 2 f_{\text{max}} \).
+
+The formula for reconstruction is:
+
+\[
+x(t) = \sum_{n=-\infty}^{\infty} x[n] \cdot \text{sinc}\left(\frac{t - nT}{T}\right)
+\]
+
+where \( x[n] \) are the samples of the signal \( x(t) \) taken at intervals \( T = 1/f_s \), and \( \text{sinc}(x) = \frac{\sin(\pi x)}{\pi x} \).
+
+Here's a Python example that demonstrates the reconstruction of a signal using sinc functions. 
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+plt.close('all')
+# Define parameters
+fs = 500  # Sampling frequency in Hz
+T = 1/fs  # Sampling interval
+t = np.linspace(0, 1, fs)  # Time vector from 0 to 1 second
+
+# Create a sample signal: sum of two sine waves
+f1, f2 = 5, 50  # frequencies of the sine waves in Hz
+#x = np.sin(2 * np.pi * f1 * t) 
+x = np.sin(2 * np.pi * f2 * t)
+
+# Plot original signal
+plt.figure()
+plt.subplot(2, 1, 1)
+plt.title('Samples')
+plt.plot(x,'.')
+plt.xlabel('n')
+plt.ylabel('Amplitude')
+
+# Now let's reconstruct the signal from its samples
+reconstructed_signal = np.zeros_like(t)
+
+# We only consider a finite number of samples for the reconstruction for demonstration purposes.
+for n in range(len(x)):
+    sinc = np.sinc((t - n * T) / T)  # sinc function centered at nT
+    reconstructed_signal += x[n] * sinc
+
+# Plot reconstructed signal
+plt.subplot(2, 1, 2)
+plt.title('Reconstructed Signal')
+plt.plot(t, reconstructed_signal)
+plt.xlabel('Time [s]')
+plt.ylabel('Amplitude')
+
+plt.tight_layout()
+plt.show()
+```
+
+This code snippet creates a sample signal that is a sine wave at 50 Hz. It then reconstructs the signal from its samples using sinc functions, following the Nyquist-Shannon sampling theorem.
+
+Remember that in this example we consider a finite number of samples for reconstruction. In the ideal mathematical model, the reconstruction sum goes from \( -\infty \) to \( \infty \), but this is not possible to implement on a computer. Nonetheless, even with the finite sum, you will see that the original and reconstructed signals closely match, illustrating the power of the theorem.
+
+![Alt text](../figs/signal_reconstruction.png?raw=true)
+
 References and Further Reading
 
 [1] Alan V. Oppenheim and Ronald W. Schafer. 2009. Discrete-Time Signal Processing (3rd. ed.). Prentice Hall Press, USA.

@@ -1,5 +1,6 @@
 ** Problem 1: Efficient Filtering **
 
+```python
 import numpy as np
 from scipy.signal import butter, lfilter, freqz, firwin
 import matplotlib.pyplot as plt
@@ -47,7 +48,7 @@ fig,axes = plt.subplots(3,1,sharex = True)
 axes[0].plot(freq, np.abs(ffts(x_prefiltered)))
 axes[1].plot(freq, np.abs(ffts(x_filtered)))
 axes[2].plot(freq, np.abs(ffts(x_fft_filtered)))
-
+```
 
 ** Problem 2:  **
 
