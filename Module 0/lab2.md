@@ -237,8 +237,8 @@ The performance of a communication receiver is significantly impacted by noise. 
 Here are the most common types of noise in a receiver:
 
 1. **Thermal Noise (or Johnson-Nyquist Noise):** This noise originates due to the random motion of electrons in a conductor. Its power is proportional to temperature and bandwidth. It's present in all electronic devices and components. Given by the equation:
-   $ N = k \times T \times B $
-   where $ k $ is Boltzmann's constant, $ T $ is the absolute temperature, and $ B $ is the bandwidth.
+   $N = k \times T \times B$
+   where $k$ is Boltzmann's constant, $T$ is the absolute temperature, and $B$  is the bandwidth.
 
 2. **Shot Noise:** This noise results from the discrete nature of electron charge. It's more prominent in semiconductor devices like diodes and transistors. The power of shot noise is proportional to the DC current and the bandwidth.
 
