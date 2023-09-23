@@ -19,6 +19,7 @@ release = '1.0'
 # Add any Sphinx extension module names here, as strings.
 extensions = [
     'recommonmark',
+    'sphinx.ext.mathjax',
 ]
 
 # The master document, containing the table of contents.
@@ -31,6 +32,9 @@ source_parsers = {
 
 # Adding Markdown suffix to source_suffix
 source_suffix = ['.rst', '.md']
+
+#Image storage
+html_static_path = ['figs']
 
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = 'sphinx'
