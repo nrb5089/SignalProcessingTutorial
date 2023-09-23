@@ -22,7 +22,7 @@ Click **Boards**, and scroll down to find the **ZCU 111 Evaluation Board**,  Cli
 
 Click **Finish**
 
-Vivado should now open your new project.  Click **Create Block Design** in the left column.
+Vivado should now open your new project.  Click **Create Block Design** in the left column, Click ***OK***.
 
 ![Screenshot](../figs/dds_m1_lab1/Screenshot%20(4).png?raw=true)
 
@@ -30,7 +30,7 @@ The block design window opens, Click on the **+** icon to add an IP core.
 
 ![Screenshot](../figs/dds_m1_lab1/Screenshot%20(5).png?raw=true)
 
-Double click the DDS block that you just added.  Set parameters accordingly.
+Double click the DDS block that you just added.  Set parameters accordingly. The binary number should be 16 bits long, the third bit is 1.  ```0010000000000000```.
 
 ![Screenshot](../figs/dds_m1_lab1/Screenshot%20(6).png?raw=true)
 
@@ -58,7 +58,7 @@ You an view the properties of each port by click on them.  Note the frequency of
 
 ![Screenshot](../figs/dds_m1_lab1/Screenshot%20(14).png?raw=true)
 
-A suggested naming scheme is shown below, suggested because the later code you use has these as the main port names.
+A suggested naming scheme is shown below, suggested because the later code you use has these as the main port names.  You can press the ```+``` to expand the ```M_AXIS_DATA``` port.
 
 ![Screenshot](../figs/dds_m1_lab1/Screenshot%20(15).png?raw=true)
 
@@ -476,6 +476,14 @@ always @(posedge aclk) begin
         end
     endcase 
 end
+always begin
+    aclk = 1'b1; // "=" sets reg sequentially
+    #half_clk_cycle; // Wait half a clock cycle
+    
+    aclk =1'b0;
+    #half_clk_cycle;
+end
+endmodule
 ```
 
 Save and **Run Simulation**
