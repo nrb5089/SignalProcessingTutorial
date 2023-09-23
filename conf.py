@@ -3,9 +3,9 @@ import sys
 sys.path.insert(0, os.path.abspath('.'))
 
 # -- Project information -----------------------------------------------------
-project = 'Your Project Name'
-copyright = '2023, Your Name'
-author = 'Your Name'
+project = 'Signal Processing Tutorial'
+copyright = '2023, Nate Blinn'
+author = 'Nate Blinn'
 release = '1.0.0'
 
 # -- General configuration ---------------------------------------------------
