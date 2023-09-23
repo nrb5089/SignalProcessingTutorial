@@ -1,44 +1,55 @@
 import os
 import sys
 import shutil
+from recommonmark.parser import CommonMarkParser
 
+# -- Path setup --------------------------------------------------------------
 
 sys.path.insert(0, os.path.abspath('.'))
 
 # -- Project information -----------------------------------------------------
-project = 'Signal Processing Tutorial'
-copyright = '2023, Nate Blinn'
-author = 'Nate Blinn'
-release = '1.0.0'
+
+project = 'Your Project Name'
+author = 'Your Name'
+version = '1.0'
+release = '1.0'
 
 # -- General configuration ---------------------------------------------------
 
+# Add any Sphinx extension module names here, as strings.
 extensions = [
     'recommonmark',
-    'sphinx.ext.autodoc',
-    'sphinx.ext.intersphinx'
 ]
 
-templates_path = ['_templates']
-source_suffix = {
-    '.rst': 'restructuredtext',
-    '.md': 'markdown',
+# The master document, containing the table of contents.
+master_doc = 'index'
+
+# Using CommonMarkParser for markdown support
+source_parsers = {
+    '.md': CommonMarkParser,
 }
-master_doc = 'index'  # The main toc tree is on 'index.md'
+
+# Adding Markdown suffix to source_suffix
+source_suffix = ['.rst', '.md']
+
+# The name of the Pygments (syntax highlighting) style to use.
+pygments_style = 'sphinx'
 
 # -- Options for HTML output -------------------------------------------------
-html_theme = 'alabaster'
-html_static_path = ['_static']
 
-# -- Extension configuration -------------------------------------------------
-intersphinx_mapping = {
-    'python': ('https://docs.python.org/3/', None),
-}
+html_theme = 'sphinx_rtd_theme'
 
-# If directory exists, delete it
-if os.path.exists("_build/html/figs"):
-    shutil.rmtree("_build/html/figs")
+# -- Path settings for Read the Docs ----------------------------------------
 
-# Copy the figs directory to where Sphinx expects it
-shutil.copytree("figs", "_build/html/figs")
+# Check if on Read the Docs environment
+on_rtd = os.environ.get('READTHEDOCS') == 'True'
 
+if on_rtd:
+    build_dir = os.path.join(os.environ.get('READTHEDOCS_OUTPUT'), 'html')
+else:
+    build_dir = '_build/html'
+
+# Ensure 'figs' directory is copied to the expected build directory
+if os.path.exists(os.path.join(build_dir, 'figs')):
+    shutil.rmtree(os.path.join(build_dir, 'figs'))
+shutil.copytree('figs', os.path.join(build_dir, 'figs'))
