@@ -1,7 +1,7 @@
 import os
 import sys
 import shutil
-from recommonmark.parser import CommonMarkParser
+#from recommonmark.parser import CommonMarkParser
 
 # -- Path setup --------------------------------------------------------------
 
@@ -14,7 +14,7 @@ def setup(app):
 		'enable_inline_math': True,
 		'enable_eval_rst': True,
 	}, True)
-	app.add_transform(AutoStructify)
+	#app.add_transform(AutoStructify)
 	
 	# Copying figs directory to the _build directory
 	dest_dir = os.path.join(app.outdir, 'figs')
