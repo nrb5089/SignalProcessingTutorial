@@ -1,5 +1,8 @@
 import os
 import sys
+import shutil
+
+
 sys.path.insert(0, os.path.abspath('.'))
 
 # -- Project information -----------------------------------------------------
@@ -31,3 +34,11 @@ html_static_path = ['_static']
 intersphinx_mapping = {
     'python': ('https://docs.python.org/3/', None),
 }
+
+# If directory exists, delete it
+if os.path.exists("_build/html/figs"):
+    shutil.rmtree("_build/html/figs")
+
+# Copy the figs directory to where Sphinx expects it
+shutil.copytree("figs", "_build/html/figs")
+
