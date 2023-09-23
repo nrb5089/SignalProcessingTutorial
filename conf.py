@@ -34,7 +34,7 @@ release = '1.0'
 # -- General configuration ---------------------------------------------------
 
 # Add any Sphinx extension module names here, as strings.
-extensions = ['
+extensions = [
 	'sphinx.ext.mathjax',
 	'myst_parser'
 ]
