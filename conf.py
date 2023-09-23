@@ -8,12 +8,12 @@ import shutil
 sys.path.insert(0, os.path.abspath('.'))
 
 def setup(app):
-	app.add_config_value('recommonmark_config', {
-		'auto_toc_tree_section': 'Contents',
-		'enable_math': True,
-		'enable_inline_math': True,
-		'enable_eval_rst': True,
-	}, True)
+	# app.add_config_value('recommonmark_config', {
+		# 'auto_toc_tree_section': 'Contents',
+		# 'enable_math': True,
+		# 'enable_inline_math': True,
+		# 'enable_eval_rst': True,
+	# }, True)
 	#app.add_transform(AutoStructify)
 	
 	# Copying figs directory to the _build directory
@@ -26,7 +26,7 @@ def setup(app):
 
 # -- Project information -----------------------------------------------------
 
-project = 'Your Project Name'
+project = 'Signal Processing Tutorial'
 author = 'Your Name'
 version = '1.0'
 release = '1.0'
@@ -42,10 +42,10 @@ extensions = [
 # The master document, containing the table of contents.
 master_doc = 'index'
 
-# Using CommonMarkParser for markdown support
-source_parsers = {
-	'.md': CommonMarkParser,
-}
+# # Using CommonMarkParser for markdown support
+# source_parsers = {
+	# '.md': CommonMarkParser,
+# }
 
 # Adding Markdown suffix to source_suffix
 source_suffix = ['.rst', '.md']
