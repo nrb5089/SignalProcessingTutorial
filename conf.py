@@ -7,6 +7,23 @@ from recommonmark.parser import CommonMarkParser
 
 sys.path.insert(0, os.path.abspath('.'))
 
+def setup(app):
+	app.add_config_value('recommonmark_config', {
+		'auto_toc_tree_section': 'Contents',
+		'enable_math': True,
+		'enable_inline_math': True,
+		'enable_eval_rst': True,
+	}, True)
+	app.add_transform(AutoStructify)
+	
+	# Copying figs directory to the _build directory
+	dest_dir = os.path.join(app.outdir, 'figs')
+	src_dir = os.path.abspath('figs')
+
+	if not os.path.exists(dest_dir):
+		shutil.copytree(src_dir, dest_dir)
+
+
 # -- Project information -----------------------------------------------------
 
 project = 'Your Project Name'
@@ -17,9 +34,9 @@ release = '1.0'
 # -- General configuration ---------------------------------------------------
 
 # Add any Sphinx extension module names here, as strings.
-extensions = [
-    'recommonmark',
-    'sphinx.ext.mathjax',
+extensions = ['
+	'sphinx.ext.mathjax',
+	'myst_parser'
 ]
 
 # The master document, containing the table of contents.
@@ -27,7 +44,7 @@ master_doc = 'index'
 
 # Using CommonMarkParser for markdown support
 source_parsers = {
-    '.md': CommonMarkParser,
+	'.md': CommonMarkParser,
 }
 
 # Adding Markdown suffix to source_suffix
@@ -50,11 +67,11 @@ html_theme = 'alabaster'
 on_rtd = os.environ.get('READTHEDOCS') == 'True'
 
 if on_rtd:
-    build_dir = os.path.join(os.environ.get('READTHEDOCS_OUTPUT'), 'html')
+	build_dir = os.path.join(os.environ.get('READTHEDOCS_OUTPUT'), 'html')
 else:
-    build_dir = '_build/html'
+	build_dir = '_build/html'
 
 # Ensure 'figs' directory is copied to the expected build directory
 if os.path.exists(os.path.join(build_dir, 'figs')):
-    shutil.rmtree(os.path.join(build_dir, 'figs'))
+	shutil.rmtree(os.path.join(build_dir, 'figs'))
 shutil.copytree('figs', os.path.join(build_dir, 'figs'))
