@@ -221,7 +221,7 @@ power_a = np.sum(np.abs(a)^2)/len(a)
 
 ```
 
-## Notes:
+**Notes**:
 
 1. The power of a signal represents the energy per unit of time. 
 

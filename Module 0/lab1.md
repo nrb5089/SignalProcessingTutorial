@@ -348,15 +348,15 @@ axes.legend(['Interpolated Signal','Original Samples'])
 
 
 
-The Nyquist-Shannon sampling theorem provides a prescription for how to perfectly reconstruct a continuous-time signal from its samples, under certain conditions. Specifically, it states that a band-limited signal \( x(t) \) that contains no frequency components higher than \( f_{\text{max}} \) can be completely reconstructed from its samples if it is sampled at a rate \( f_s > 2 f_{\text{max}} \).
+The Nyquist-Shannon sampling theorem provides a prescription for how to perfectly reconstruct a continuous-time signal from its samples, under certain conditions. Specifically, it states that a band-limited signal $x(t)$ that contains no frequency components higher than $f_{\text{max}}$ can be completely reconstructed from its samples if it is sampled at a rate $f_s > 2 f_{\text{max}}$.
 
 The formula for reconstruction is:
 
-\[
-x(t) = \sum_{n=-\infty}^{\infty} x[n] \cdot \text{sinc}\left(\frac{t - nT}{T}\right)
-\]
 
-where \( x[n] \) are the samples of the signal \( x(t) \) taken at intervals \( T = 1/f_s \), and \( \text{sinc}(x) = \frac{\sin(\pi x)}{\pi x} \).
+$$x(t) = \sum_{n=-\infty}^{\infty} x[n] \cdot \text{sinc}\left(\frac{t - nT}{T}\right)$$
+
+
+where $x[n]$ are the samples of the signal $x(t)$ taken at intervals $T = 1/f_s$, and $\text{sinc}(x) = \frac{\sin(\pi x)}{\pi x}$.
 
 Here's a Python example that demonstrates the reconstruction of a signal using sinc functions. 
 
@@ -420,6 +420,7 @@ References and Further Reading
 
 ## Problem 1: Efficient Filtering
 
+The ```lfilter``` function applies the convolution in the time domain, which is colloquially known as linear filtering, but is actually inefficient compared to other methods.  In this problem we set up a demonstration that you will fill in the blanks for FFT convolution.  Both vectors being convolved must be zero padded to have the same length, the FFT of each vector is then multiplied together, and then we take the IFFT. Fill in the ```?``` below.
 ```python
 import numpy as np
 from scipy.signal import butter, lfilter, freqz, firwin
@@ -478,7 +479,54 @@ The expected output is
 ![Alt text](../figs/fft_conv_problem_output.png?raw=true)
 
 ## Problem 2: 
+The following code generates a really annoying alternating set of beeping sounds between a low frequency (less annoying) and high frequency (extremely annoying).  CD audio samples at 44.1 kHz, and the human audible spectrum is between 20 Hz and 20 kHz, although, most people are deaf a lower than 20 kHz...
+
+```python
+import numpy as np
+from scipy.io.wavfile import write
+
+rate = 44100 #Sampling Rate (Hz)
+LOW_FREQ = 300  # Low frequency (Hz)
+HIGH_FREQ = 2000  # High frequency (Hz)
+PULSE_DURATION = 0.5  # Duration for each pulse (seconds)
+NUM_PULSES = 10  # Number of pulses for each frequency
+
+# Generate a single pulse for a given frequency
+def generate_pulse(freq, duration, fs):
+    t = np.arange(int(fs * duration))
+    return np.sin(2 * np.pi * freq * t / fs) 
+
+# Create pulsed signal
+low_pulse = generate_pulse(LOW_FREQ, PULSE_DURATION, rate)
+high_pulse = generate_pulse(HIGH_FREQ, PULSE_DURATION, rate)
+
+# Concatenate the pulses to alternate between low and high frequencies
+signal = np.tile(np.concatenate([low_pulse, high_pulse]), NUM_PULSES)
+
+scaled = np.int16(signal / np.max(np.abs(signal)) * 32767)
+write('output_audio.wav', rate, scaled)
+```
+
+Your task is to create filters to 
+1. Read the ```output_audio.wav``` into a numpy array and filter out the high frequency (2 kHz signal).  Save the new signal as a new audio file and enjoy the "relaxing" low frequency pulse.
+
+```python
+import numpy as np
+from scipy.io.wavfile import write, read
+
+rate = 44100
+LOW_FREQ = 300  # Low frequency (Hz)
+HIGH_FREQ = 2000  # High frequency (Hz)
+PULSE_DURATION = 0.5  # Duration for each pulse (seconds)
+NUM_PULSES = 10  # Number of pulses for each frequency
+signal = read('output_audio.wav')[1]/32767.0
+
+# Design the LPF and filter it here
+#new_signal = filter_signal(signal) 
+
+scaled = np.int16(new_signal / np.max(np.abs(new_signal)) * 32767)
+
+write('filtered_out_high_audio.wav', rate, scaled)
+```
 
 
-
-## Problem 3:
