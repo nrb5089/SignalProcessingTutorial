@@ -315,3 +315,96 @@ References and Further Reading
 
 [1] Scheer, Jim, and William A. Holm. "Principles of modern radar." (2010): Chapter 20 Section 12.
 
+# Problem 1
+First, a little bit about Python objects/classes, we instantiate a class as 
+```python
+class Person:
+    def __init__(self, age, name, eye_color):
+        self.age = age
+        self.name = name
+        self.eye_color = eye_color
+        
+    def calculate_age_plus_five_years(self):
+        return self.age + 5
+```
+
+The object class ```Person``` has accepts arguments ```name```, ```eye_color```, and ```age``` and assigns them to attributes that don't necessarily need to be name the same thing.  We instantiate an instance of ```Person``` as 
+
+```python
+bob = Person(45,'Bob', 'Brown')
+```
+
+We can do some hardcore math with the method ```calculate_age_plus_five_years``` and calclate Bob's age plus 5 years, which is 50.  
+```python
+bob.calculate_age_plus_five_years()
+```
+
+It's often useful to define model components as objects, for example, a Butterworth filter might use the following object wrapper
+
+```python
+from scipy.signal import butter
+
+class ButterFilter:
+	def __init__(self,N,Wn,fs,btype):
+		self.N = N      #Filter order
+		self.Wn = Wn    #Window limits, if low pass or high pass, it's the cutoff frequency, if bandpass, it's a tuple of start and stop
+		self.Fs = fs    #Sampling Frequency
+		self.btype = btype #Filter type "bandpass", "low", "high"
+		
+		self.b,self.a = butter(N = N, Wn = Wn, fs = fs, btype = btype)
+	
+	def filter_signal(self,x): return lfilter(self.b,self.a,x)
+```
+
+We instantiate ```ButterFilter``` as
+
+```python
+mybutterfilter = ButterFilter(...)
+```
+
+and filter signals by invoking the method ```mybutterfilter.filter_signal(x)```.  Your first task is to create a Python ```class``` called ```Receiver``` with attributes corresponding to:
+
+* RF Sampling Frequency in Hz - 500 MHz
+* Intermediate Frequency (IF) Sampling Frequency in Hz - 100 MHz
+* Baseband (BB) Sampling Frequency in Hz - 20 MHz
+* RF Center Frequency in Hz - 150 MHz
+* RF Bandwidth in Hz - 20 MHz
+
+Your class should include a function called ```__init__``` that receives args 
+
+* ```rf_sampling_frequency_hz```
+* ```if_sampling_frequency_hz```
+* ```bb_sampling_frequency_hz```
+* ```rf_center_frequency_hz```
+* ```rf_bandwidth_hz```
+
+and assigns them to object attributes, for example, ```self.fc_rf = rf_center_frequency_hz```.  Your ```__init__``` function should also initialize three filters 
+
+* Butterworth front end wideband bandpass reject filter order 2 with limits 140 MHz and 160 MHz (covers the RF bandwidth)
+* Chebyshev (use ```scipy.signal.cheby1```) low pass order 5 with ripple factor 2 and cutoff 35 MHz
+* FIR (use ```scipy.signal.firwin```) with 31 taps and cutoff frequency of .5 MHz
+
+Your object, ```Receiver```, should finally include a method for processing an incoming signal using components you've defined, for example
+
+```python
+def process_signal(self,x):
+    x = self.apply_bpfrontend(x) #Apply the Butterworth filter you constructed
+    x = x[::5] #Downsample by a factor of 5
+    #...
+return
+```
+
+The downsample factor causes the original signal to alias the original RF center frequency to 25 MHz, hence we use a 35 MHz cutoff in the Cheby1 filter to account of 10 MHz on either side (20 MHz total).  The rest of the ```process_signal``` method should apply the Cheby1 IF filter, then multiply by a complex sinusoid at -35 MHz to downconvert to baseband.  Once at baseband, apply the FIR filter you defined and downsample by a factor of 5 once more to reach your BB sampling frequency.  This process models the RF front end of a receiver for conversion from analog to baseband.
+
+Write a test script to process the following LFM signal sampled at the RF receiver frequency
+
+```python
+signal_length_s = 5000 / 500e6 #10 us
+x = np.exp(1j * 2 * np.pi/500e6 * (150e6 *np.arange(5000) + np.cumsum(np.linspace(-0.5e6,0.5e6,500e6))))
+```
+
+The end result should look like the following:
+
+![Alt text](../figs/rfchaintest.png?raw=true)
+
+# Problem 2
