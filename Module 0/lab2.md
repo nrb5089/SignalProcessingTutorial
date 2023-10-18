@@ -399,8 +399,8 @@ The downsample factor causes the original signal to alias the original RF center
 Write a test script to process the following LFM signal sampled at the RF receiver frequency
 
 ```python
-signal_length_s = 5000 / 500e6 #10 us
-x = np.exp(1j * 2 * np.pi/500e6 * (150e6 *np.arange(5000) + np.cumsum(np.linspace(-0.5e6,0.5e6,500e6))))
+signal_length_samples = 5000
+x = np.exp(1j * 2 * np.pi/500e6 * (150e6 *np.arange(signal_length_samples) + np.cumsum(np.linspace(-0.5e6,0.5e6,signal_length_samples))))
 ```
 
 The end result should look like the following:
