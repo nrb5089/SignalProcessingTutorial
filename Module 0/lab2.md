@@ -315,8 +315,11 @@ References and Further Reading
 
 [1] Scheer, Jim, and William A. Holm. "Principles of modern radar." (2010): Chapter 20 Section 12.
 
+
+The problems for this lab pertain to creating your own radar receiver, much more information can be found on the broad topic of radar in the MIT Lincoln Labs Introduction to Radar Course, in particular, the first lecture https://www.ll.mit.edu/sites/default/files/outreach/doc/2018-07/lecture%201.pdf.
+
 # Problem 1
-First, a little bit about Python objects/classes, we instantiate a class as 
+Cool, so let's build a radar receiver, but first, a little bit about Python objects/classes, we instantiate a class as 
 ```python
 class Person:
     def __init__(self, age, name, eye_color):
@@ -528,10 +531,10 @@ self.mf_wf_bb = np.exp(1j * 2 * np.pi/self.Fs_bb * (np.cumsum(np.linspace(-lfm_e
 self.bb_filter = FIR(numtaps = 31, cutoff = lfm_excursion_hz/2, fs = self.Fs_bb)
 ```
 
-Create an instance of ```SinglePulseWaveform``` called ```mywf``` with the argument values listed above.  Use the function ```process_signal``` on ```mywf.wf_single_pw``` that you constructed in Problem 1 for the RF frontend.  Apply your the matched filter to the output of ```process_signal``` using 
+Create an instance of ```SinglePulseWaveform``` called ```mywf``` with the argument values listed above as an attribute to your ```Receiver``` object in Problem 1.  Use the function ```process_signal``` on ```mywf.wf_single_pw``` that you constructed in Problem 1 for the RF frontend.  Apply your the matched filter by appending the following at the end of the  ```process_signal``` function
 
 ```python
-x = np.convolve(x,np.conj(self.mf_wf_bb), mode = 'same')
+x = np.convolve(x,np.conj(self.mywf.mf_wf_bb), mode = 'same')
 ```
 
 The output should look like 
@@ -540,7 +543,11 @@ The output should look like
 
 # Problem 3
 
-Let's say we have a target out at 50 km, with our chosen $T_{\textnormal{PRI}} = 1000$ us we can detect a target, unambiguously, out to 
+![Alt text](../figs/radar_return.png?raw=true)
+
+(graphic from https://www.researchgate.net/figure/Radar-signal-concept_fig1_276184180)
+
+All radar detection is based on delays relative to intervals in which measurements are processed.  In this problem, you'll be shown how to simulate a delay within that interval.  Let's say we have a target out at 50 km, with our chosen $T_{\textnormal{PRI}} = 1000$ us we can detect a target, unambiguously, out to 
 
 $$R_\textnormal{ua} = cT_{\textnormal{PRI}}/2 = 150 \textnormal{km}$$
 
@@ -549,15 +556,18 @@ where $c = 3\times 10^8$ m/s is the speed of light in free space.  We can simula
 ```python
     #Calculate index of signal presence
     d = 50000 #distance of target in meters
-    distance_samples_skin_return_m = np.arange(mywf.samples_per_cpi_rf) / self.radar.Fs_rf * 3e8/2
+    distance_samples_skin_return_m = np.arange(myreceiver.mywf.samples_per_cpi_rf) / myreceiver.Fs_rf * 3e8/2
     print(f'Maximum Distance: {np.max(distance_samples_skin_return_m)}, Target Distance: {d}')
     min_range_sample_to_d = np.argmin(np.abs(distance_samples_skin_return_m-d))
-    
+
     #Truncate return signals outside cpi, and concatenate zeros
-    x = x[:(wf_object.samples_per_cpi_rf-min_range_sample_to_d)]
-    x = np.concatenate([np.zeros(wf_object.samples_per_cpi_rf-len(x)) + 0.0j,x])
+    x = dcp(myreceiver.mywf.wf)
+    fig,axes = plt.subplots()
+
+    x = x[:(myreceiver.mywf.samples_per_cpi_rf-min_range_sample_to_d)]
+    x = np.concatenate([np.zeros(myreceiver.mywf.samples_per_cpi_rf-len(x)) + 0.0j,x])
 ```
 
-Process ```x``` in the above snippet using your ```process_signal``` function constructed in Problem 1, then apply your matched filter from the ```SinglePulseWaveform``` instance you created, ```mywf```.  The output should look like the following.  
+Process ```x``` in the above snippet using your ```process_signal``` function constructed in Problem 1, then apply your matched filter from the ```SinglePulseWaveform``` instance you created, ```mywf```.  The output should look like the following, note the delay is roughly a third of the way through the overall receive window samples.  Matching this sample to a moment in time, then scaling by $c/2$ provides the distance estimation of the target.  But how do designate something as a detection, or not?  Surely noise can trigger detections if significant enough, let's find out in the next lab...
 
-![Alt text](../figs/mftest.png?raw=true)
+![Alt text](../figs/distance_delay_test.png?raw=true)
