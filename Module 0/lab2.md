@@ -194,7 +194,7 @@ For a discrete-time signal $x[n]$, the power is similarly defined.
 For non-periodic sequences, the average power $P$ over all time is:
 $P = \lim_{N \to \infty} \frac{1}{2N + 1} \sum_{n=-N}^{N} |x[n]|^2$
 
-For periodic sequences with period \( N_0 \), the average power $P$ is:
+For periodic sequences with period $N_0$, the average power $P$ is:
 $P = \frac{1}{N_0} \sum_{n=0}^{N_0-1} |x[n]|^2$
 
 Where:
@@ -366,9 +366,9 @@ and filter signals by invoking the method ```mybutterfilter.filter_signal(x)```.
 
 * RF Sampling Frequency in Hz - 500 MHz
 * Intermediate Frequency (IF) Sampling Frequency in Hz - 100 MHz
-* Baseband (BB) Sampling Frequency in Hz - 20 MHz
-* RF Center Frequency in Hz - 150 MHz
-* RF Bandwidth in Hz - 20 MHz
+* Baseband (BB) Sampling Frequency in Hz - 25 MHz
+* RF Center Frequency in Hz - 115 MHz
+* RF Bandwidth in Hz - 10 MHz
 
 Your class should include a function called ```__init__``` that receives args 
 
@@ -380,14 +380,14 @@ Your class should include a function called ```__init__``` that receives args
 
 and assigns them to object attributes, for example, ```self.fc_rf = rf_center_frequency_hz```.  Your ```__init__``` function should also initialize three filters 
 
-* Butterworth front end wideband bandpass reject filter order 2 with limits 210 MHz and 220 MHz (covers the RF bandwidth)
-* Chebyshev (use ```scipy.signal.cheby1```) low pass order 5 with ripple factor 2 and cutoff 25 MHz
+* Butterworth front end wideband bandpass reject filter order 2 with limits 110 MHz and 120 MHz (covers the RF bandwidth)
+* Chebyshev (use ```scipy.signal.cheby1```) low pass order 5 with ripple factor 2 and cutoff 20 MHz
 * FIR (use ```scipy.signal.firwin```) with 31 taps and cutoff frequency of 1 MHz
 
 Your object, ```Receiver```, should finally include a method for processing an incoming signal using components you've defined, for example
 
 ```python
-def process_signal(self,x):
+def process_signal(self,wf_object,x):
     ### FOR PLOT PROCESSING ONLY ##########################
     fig,axes = plt.subplots(3,2)
     freq = np.linspace(-self.Fs_rf/2,self.Fs_rf/2,len(x))
@@ -420,7 +420,7 @@ def process_signal(self,x):
     #######################################################
     
     #Apply the FIR BB filter
-    #Downsample by a factor of 5
+    #Downsample by a factor of 4
     
     ### FOR PLOT PROCESSING ONLY ##########################
     freq = np.linspace(-self.Fs_bb/2,self.Fs_bb/2,len(x))
@@ -437,7 +437,13 @@ def affts(x): return np.abs(ffts(x))
 ```
 
 
-The downsample factor causes the original signal to alias the original RF center frequency to 15 MHz,  we use a 35 MHz cutoff in the Cheby1 filter to restrict the signal at IF.  The rest of the ```process_signal``` method should apply the Cheby1 IF filter, then multiply by a complex sinusoid at -15 MHz to downconvert to baseband.  Once at baseband, apply the FIR filter you defined and downsample by a factor of 5 once more to reach your BB sampling frequency.  This process models the RF front end of a receiver for conversion from analog to baseband.
+The downsample factor causes the original signal to alias the original RF center frequency to 15 MHz,  we use a 35 MHz cutoff in the Cheby1 filter to restrict the signal at IF.  The rest of the ```process_signal``` method should apply the Cheby1 IF filter, then multiply by a complex sinusoid at  the IF, which can be calculated by 
+
+```python
+self.fc_if = np.mod(rf_sampling_frequency_hz,if_sampling_frequency_hz)
+```
+
+MHz to downconvert to baseband.  Once at baseband, apply the FIR filter you defined and downsample by a factor of 4 to reach your BB sampling frequency.  This process models the RF front end of a receiver for conversion from analog to baseband.
 
 Write a test script to process the following LFM signal sampled at the RF receiver frequency, first instantiate an instance of your ```Receiver``` object, call it ```myreceiver``` or something that makes sense to you.
 
@@ -466,9 +472,9 @@ Create a new Python class called ```SinglePulseWaveform``` with that has the fol
 * Linear Frequency Modulation Excursion in Hz- 2 MHz
 * RF Sampling Frequency in Hz - 500 MHz
 * Intermediate Frequency (IF) Sampling Frequency in Hz - 100 MHz
-* Baseband (BB) Sampling Frequency in Hz - 20 MHz
-* RF Center Frequency in Hz - 150 MHz
-* RF Bandwidth in Hz - 20 MHz
+* Baseband (BB) Sampling Frequency in Hz - 25 MHz
+* RF Center Frequency in Hz - 115 MHz
+* RF Bandwidth in Hz - 10 MHz
 
 and accepts the following arguments:
 
@@ -522,7 +528,7 @@ self.mf_wf_bb = np.exp(1j * 2 * np.pi/self.Fs_bb * (np.cumsum(np.linspace(-lfm_e
 self.bb_filter = FIR(numtaps = 31, cutoff = lfm_excursion_hz/2, fs = self.Fs_bb)
 ```
 
-Create an instance of ```SinglePulseWaveform``` called ```mywf``` with the argument values listed above.  Use the function ```process_signal``` on ```mywf.wf_single_pw``` that you constructed in Problem 1 for the RF frontend.  Take output and apply your the matched filter to the output of ```process_signal``` using 
+Create an instance of ```SinglePulseWaveform``` called ```mywf``` with the argument values listed above.  Use the function ```process_signal``` on ```mywf.wf_single_pw``` that you constructed in Problem 1 for the RF frontend.  Apply your the matched filter to the output of ```process_signal``` using 
 
 ```python
 x = np.convolve(x,np.conj(self.mf_wf_bb), mode = 'same')
@@ -534,7 +540,7 @@ The output should look like
 
 # Problem 3
 
-Let's say we have a target out at 100 km, with our chosen $T_{\textnormal{PRI}} = 1000$ us we can detect a target, unambiguously, out to 
+Let's say we have a target out at 50 km, with our chosen $T_{\textnormal{PRI}} = 1000$ us we can detect a target, unambiguously, out to 
 
 $$R_\textnormal{ua} = cT_{\textnormal{PRI}}/2 = 150 \textnormal{km}$$
 
@@ -542,7 +548,7 @@ where $c = 3\times 10^8$ m/s is the speed of light in free space.  We can simula
 
 ```python
     #Calculate index of signal presence
-    d = 100000 #distance of target in meters
+    d = 50000 #distance of target in meters
     distance_samples_skin_return_m = np.arange(mywf.samples_per_cpi_rf) / self.radar.Fs_rf * 3e8/2
     print(f'Maximum Distance: {np.max(distance_samples_skin_return_m)}, Target Distance: {d}')
     min_range_sample_to_d = np.argmin(np.abs(distance_samples_skin_return_m-d))
@@ -551,3 +557,7 @@ where $c = 3\times 10^8$ m/s is the speed of light in free space.  We can simula
     x = x[:(wf_object.samples_per_cpi_rf-min_range_sample_to_d)]
     x = np.concatenate([np.zeros(wf_object.samples_per_cpi_rf-len(x)) + 0.0j,x])
 ```
+
+Process ```x``` in the above snippet using your ```process_signal``` function constructed in Problem 1, then apply your matched filter from the ```SinglePulseWaveform``` instance you created, ```mywf```.  The output should look like the following.  
+
+![Alt text](../figs/mftest.png?raw=true)
