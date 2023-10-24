@@ -815,7 +815,7 @@ Instantiate an instance of ```Simulation``` and run ```run_sim```
 
 ![Alt text](../figs/sim_test.png?raw=true)
 
-#Problem 5
+# Problem 5
 
 How do we detect a signal out of noise?  While there is a lot of interesting mathematics within Detection Theory, we defer the interested reader to [3] for more detail.  
 
@@ -836,11 +836,11 @@ The moving windows consists of reference cells, $x_i$, and guard cells that are 
 
 We compute the moving window average of $N$ reference cells as 
 
-$$T_N = \frac{1}{N}\sum_{i = 1}^N \abs{x_i}$$
+$$T_N = \frac{1}{N}\sum_{i = 1}^N |x_i|$$
 
 for a linear detector, and 
 
-$$T_N = \frac{1}{N}\sum_{i = 1}^N \abs{x_i}^2$$
+$$T_N = \frac{1}{N}\sum_{i = 1}^N |x_i|^2$$
 
 for a square law detector.  As an array, a sliding window with 5 reference cells (one-sided, $N = 10$) and 2 guard cells (one sided) looks like
 
@@ -853,7 +853,7 @@ The middle element is the cell under test (CUT).
 
 We choose the CFAR constant based on a designer choice of $P_{FA}$, a value $1e-3 \leq P_{FA} \leq 1e-8$ is appropriate, depending on the design, we'll go for $P_{FA} = 1e-6$ here.  We compute the constant by
 
-$$\alpha = N((P_{FA}^(-1/N) -1)$$
+$$\alpha = N(P_{FA}^{-1/N} -1)$$
 
 The CFAR class wrapper for a CA 1D is 
 

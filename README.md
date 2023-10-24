@@ -78,6 +78,12 @@ Decimation (Downsampling)
 
 Interpolation (Upsampling*)
 
+Project
+
+Problem 1: Efficient Filtering
+
+Problem 2: 
+
 # Module 0/lab2.md
 
 Transmitter and Receivers
@@ -88,11 +94,21 @@ Baseband IQ Representation
 
 Passband IQ Representation
 
+Radar Range Equation:
+
 Power
 
-Notes:
-
 Noise Models
+
+Problem 1
+
+Problem 2
+
+Problem 3
+
+Problem 4
+
+Problem 5
 
 # Module 1/lab0.md
 
