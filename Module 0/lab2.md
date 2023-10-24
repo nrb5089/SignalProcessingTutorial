@@ -1,5 +1,6 @@
 # Transmitter and Receivers
 
+A transmitter converts bits into symbols which modulate electromagnetic propagation.  A receiver takes the modulated electromagnetic radiation syncs with symbols, demodulates, and produces bits.  The bits to bits pipeline is typically called the Physical layer, and will be the focus here.
 
 ## In Phase & Quadrature (IQ)
 
@@ -169,7 +170,48 @@ plt.ylabel('Amplitude')
 plt.show()
 ```
 
-In this tutorial, we saw how to represent a signal in baseband IQ form and passband form. Note that the passband representation is used for the actual transmission of the signal, and at the receiver side, the signal would be demodulated back to baseband for processing.
+In this tutorial, we saw how to represent a signal in baseband IQ form and passband form. Note that the passband representation is used for the actual transmission of the signal, and at the receiver side, the signal would be demodulated back to baseband for processing.  Balancing this link budget is done using the Friis transmission equation, but when I called it that on my first day of work I got a perplexed look from a senior engineer who corrected me that it was the...
+
+## Radar Range Equation:
+
+**Radar** stands for **RAdio Detection And Ranging**. It's essentially a system that uses electromagnetic waves to detect objects, measure their distance, speed, and other characteristics.
+
+Imagine you're in a pitch-black room, and you want to detect if someone's there. One way is to shout and listen for an echo. If someone's in the room, the sound bounces off them and returns to you as an echo. Based on the time it takes for the echo to return, you can estimate how far away they are.
+
+Radar does something similar but uses radio waves instead of sound waves.
+
+The radar range equation relates the range (distance) of a target to several factors:
+
+1. **Transmitted Power ($P_t$)**: The amount of energy the radar sends out.
+2. **Transmitter Antenna Gain ($G_t$)**: A measure of how "focused" the transmitted/received energy is in a particular direction.
+3. **Receiver Antenna Gain ($G_r$)**: A measure of how "focused" the transmitted/received energy is in a particular direction.
+4. **Radar Cross Section ($\sigma$)**: A measure of how much radio energy an object reflects back towards the radar. Large metal objects have a high σ; stealth aircraft are designed to have a low σ.
+5. **Frequency ($f$)** or Wavelength (λ): The frequency/wavelength of the radio wave used.
+6. **Range ($R$)**: The distance between the radar and the target.
+
+The basic radar equation looks like this:
+
+$$P_r = \frac{P_t  G_t G_r  \lambda^2  \sigma}{(4\pi)^3  R^4 }$$
+
+Where:
+- $P_r$ is the received power.
+- $\lambda$ is the wavelength of the transmitted signal.
+- Note that often the case with radars is $G_r = G_t = G$
+
+**Layman Explanation**
+
+Think of **P_t** as the loudness of your shout, and $P_r$ as how loud the echo is when it returns. 
+
+- If you shout louder (higher $P_t$), you'll hear a louder echo (higher $P_r$).
+- If the person (or object) you're trying to detect is closer (smaller $R$), the echo will be louder.
+- If the person is wearing reflective clothing (think of this as a higher $\sigma$), they'll reflect more sound and produce a louder echo.
+
+**Antenna Gain (G)** is like cupping your hands around your mouth when shouting (and ears when listening). It focuses the sound in a particular direction, making it louder in that direction and quieter in others.
+
+Finally, the receiver's sensitivity is akin to your hearing ability. If you have sharp hearing, you can detect even faint echoes.
+
+
+The radar range equation is fundamental in radar technology. It provides a relationship between how far away an object is and how easy it is to detect, given various parameters about the radar system and the target. This knowledge is crucial in both radar design.  The follow presentation by MIT Lincoln Labs provides an excellent introduction and overview of each piece:  https://www.ll.mit.edu/sites/default/files/outreach/doc/2018-07/lecture%202.pdf and [2] also has a good introduction
 
 ## Power
 
@@ -312,11 +354,16 @@ plt.show()
 
 
 References and Further Reading
-
 [1] Scheer, Jim, and William A. Holm. "Principles of modern radar." (2010): Chapter 20 Section 12.
+[2] Scheer, Jim, and William A. Holm. "Principles of modern radar." (2010): Chapter 2.
 
 
-The problems for this lab pertain to creating your own radar receiver, much more information can be found on the broad topic of radar in the MIT Lincoln Labs Introduction to Radar Course, in particular, the first lecture https://www.ll.mit.edu/sites/default/files/outreach/doc/2018-07/lecture%201.pdf.
+
+The problems for this lab pertain to creating your own radar simulation, much more information can be found on the broad topic of radar in the MIT Lincoln Labs Introduction to Radar Course, in particular, the first lecture https://www.ll.mit.edu/sites/default/files/outreach/doc/2018-07/lecture%201.pdf.
+
+In particular, you will build this...
+
+![Alt text](../figs/lab2_diagram.png?raw=true)
 
 # Problem 1
 Cool, so let's build a radar receiver, but first, a little bit about Python objects/classes, we instantiate a class as 
@@ -365,7 +412,9 @@ We instantiate ```ButterFilter``` as
 mybutterfilter = ButterFilter(...)
 ```
 
-and filter signals by invoking the method ```mybutterfilter.filter_signal(x)```.  Your first task is to create a Python ```class``` called ```Receiver``` with attributes corresponding to:
+and filter signals by invoking the method ```mybutterfilter.filter_signal(x)```.  
+
+** DO THIS ** Your first task is to create a Python ```class``` called ```Receiver``` with attributes corresponding to:
 
 * RF Sampling Frequency in Hz - 500 MHz
 * Intermediate Frequency (IF) Sampling Frequency in Hz - 100 MHz
@@ -468,7 +517,7 @@ The end result should look like the following:
 
 In the first problem, you modeled the RF front end of a receiver.  Generally, the first two filter chains represent analog processes, which we try to capture functionality of in a computer simulation with discrete numbers.  A lot of times, the front end may be bypassed altogether in a model if it is not impacting to the overall setup trying to be modeled.  We now shift our focus to the signal processor, the meat of the backend that processes the raw sampled digital signal.  
 
-Create a new Python class called ```SinglePulseWaveform``` with that has the following attributes:
+** DO THIS ** Create a new Python class called ```SinglePulseWaveform``` with that has the following attributes:
 
 * Pulse Width in seconds - 10 us
 * Pulse Repetition Interval in seconds - 1000 us
@@ -516,7 +565,7 @@ The above snippet has precalculations for the number of samples in a pulse at th
     self.samples_per_cpi_bb = int(1 * self.samples_per_pri_bb)
 ```
 
-Create an array representing the LFM pulse signal described by the class attributes in ```SinglePulseWaveform```, note the sampling frequency is at RF.
+** DO THIS ** Create an array representing the LFM pulse signal described by the class attributes in ```SinglePulseWaveform```, note the sampling frequency is at RF.
 
 ```python
 self.wf_single_pw = np.exp(1j * 2 * np.pi/self.Fs_rf * (self.fc_rf *np.arange(self.samples_per_pw_rf) + np.cumsum(np.linspace(self.fmin_bb,self.fmax_bb,self.samples_per_pw_rf))))
@@ -568,6 +617,204 @@ where $c = 3\times 10^8$ m/s is the speed of light in free space.  We can simula
     x = np.concatenate([np.zeros(myreceiver.mywf.samples_per_cpi_rf-len(x)) + 0.0j,x])
 ```
 
-Process ```x``` in the above snippet using your ```process_signal``` function constructed in Problem 1, then apply your matched filter from the ```SinglePulseWaveform``` instance you created, ```mywf```.  The output should look like the following, note the delay is roughly a third of the way through the overall receive window samples.  Matching this sample to a moment in time, then scaling by $c/2$ provides the distance estimation of the target.  But how do designate something as a detection, or not?  Surely noise can trigger detections if significant enough, let's find out in the next lab...
+** DO THIS ** Process ```x``` in the above snippet using your ```process_signal``` function constructed in Problem 1, then apply your matched filter from the ```SinglePulseWaveform``` instance you created, ```mywf```.  The output should look like the following, note the delay is roughly a third of the way through the overall receive window samples.  Matching this sample to a moment in time, then scaling by $c/2$ provides the distance estimation of the target.  But how do designate something as a detection, or not?  Surely noise can trigger detections if significant enough, let's find out in the next lab...
 
 ![Alt text](../figs/distance_delay_test.png?raw=true)
+
+# Problem 4
+
+So far we have only dealt with the noiseless response of the transmitter and receiver, in fact we are using the default magnitude (power) of the signals in the model that Python prescribes.  Let's calibrate this to match a situation in real life.
+
+We can scale the transmit power of the waveform as follows, for a transmit power of $P_t$,
+
+```python
+transmit_signal = np.sqrt(P_t) * wf_rf
+```
+
+** DO THIS ** Create the following classes:
+
+Let's add a wrapper class, ```Transmitter``` as
+
+```python
+class Transmitter:
+	def __init__(self,
+	
+				#Spatial Parameters
+				x_loc_m = 0.0, 
+				y_loc_m = 0.0,
+				z_loc_m = 3.0, 
+				x_vel_mps = 0.0,
+				y_vel_mps = 0.0,
+				z_vel_mps = 0.0,
+				x_acc_mps2 = 0.0,
+				y_acc_mps2 = 0.0,
+				z_acc_mps2 = 0.0,
+				
+				#Transmitter and Sampling Parameters
+				rf_sampling_frequency_hz = 500e6,
+				if_sampling_frequency_hz = 100e6,
+				bb_sampling_frequency_hz = 25e6,
+				rf_center_frequency_hz = 115e6,
+				rf_bandwidth_hz = 10e6,
+				transmit_power_w = 100):
+				
+		self.state = np.array([x_loc_m,y_loc_m,z_loc_m,x_vel_mps,y_vel_mps,z_vel_mps]) 
+		self.Fs_rf = rf_sampling_frequency_hz
+		self.Fs_if = if_sampling_frequency_hz
+		self.Fs_bb = bb_sampling_frequency_hz
+		self.fc_rf = rf_center_frequency_hz
+		self.fc_if = np.mod(rf_center_frequency_hz,if_sampling_frequency_hz)
+		self.rf_bw = rf_bandwidth_hz
+		self.Ptx = transmit_power_w
+
+	def transmit_waveform(self,wf_object):
+		return np.sqrt(self.Ptx) * wf_object.wf()
+```
+
+Go ahead and and add the spatial parameters, i.e., ```x_loc_m```, ```y_loc_m```, etc. to your ```Receiver``` class as well.  Pull out the instantiation of the ```SinglePulseWaveform``` object, don't delete it!  Modify your ```Receiver``` class to accept an argument 
+
+```receiver_noise_figure_db```
+
+with a default value of $5$~dB.  Make it an attribute in linear units, and compute the noise standard deviation, $\sigma_n$
+
+```python
+    self.NF_lin = 10**(receiver_noise_figure_db/10)
+	self.sigma_n = np.sqrt(1.38e-23 * 290 * rf_bandwidth_hz * self.NF_lin)
+```
+
+Now add a method 
+
+```python
+def add_receiver_noise(self,x): return x + self.sigma_n/np.sqrt(2) * (np.random.randn(len(x)) + 1j*np.random.randn(len(x)))
+```
+
+Finally, insert the ```add_receiver_noise``` method into your ```process_signal``` method you created earlier after the front end RF filter, but before the IF filter.
+
+```python
+x = self.add_receiver_noise(x)
+```
+
+*Caution* We need to be careful, if the entire RF bandwidth is not processed in the RF chain, we need to adjust the noise bandwidth settings separately.  The revised ```process_signal``` method should be modified to match 
+
+```python
+def process_signal(self,x,wf_object):
+		fig,axes = plt.subplots()
+		x = self.apply_rf2if_filter(x) #Can be bypassed if you don't have anything out of band.
+		x = x[::self.rf2if_ds]
+		x = self.add_receiver_noise(x)
+		x = self.apply_adc_filter(x)
+		x = x * np.exp(-1j*2*np.pi/self.Fs_if * self.fc_if *np.arange(len(x)))
+		x = wf_object.apply_bb_filter(x)
+		x = x[::self.if2bb_ds]
+		
+		#fig.savefig('../SignalProcessingTutorial/figs/rfchaintest.png')
+		x = np.convolve(x,np.conj(wf_object.mf_wf_bb), mode = 'same')
+		axes.plot(np.abs(x))
+		fig.savefig('./sim_test.png')
+		return x
+```
+
+** DO THIS ** Take things a step further and create ```Receiver``` and ```Transmitter``` as instantiations in (they don't necessarily have to be child classes, but can be handy when they are often co-located) a higher level wrapper class, ```Radar```.  Put the ```SinglePulseWaveform``` instantiation in the ```__init__``` function
+
+```python
+class Radar:
+	'''
+	Basic single mode, single pulse radar
+	'''
+	def __init__(self):
+		self.transmitter = Transmitter()
+		self.receiver = Receiver()
+		
+		self.mywf = SinglePulseWaveform(pulse_width_s = 10e-6,
+										pulse_repetition_interval_s = 1000e-6,
+										lfm_excursion_hz = 2e6,
+										rf_sampling_frequency_hz = self.receiver.Fs_rf,
+										if_sampling_frequency_hz = self.receiver.Fs_if,
+										bb_sampling_frequency_hz = self.receiver.Fs_bb,
+										rf_center_frequency_hz = self.receiver.fc_rf)
+                                        
+```
+
+** DO THIS ** Add a class called ```Scatterer```:
+
+```python
+class Scatterer:
+	def __init__(self,
+	
+				#Spatial Parameters
+				x_loc_m = 50000, 
+				y_loc_m = 0.0,
+				z_loc_m = 10000, 
+				x_vel_mps = 0.0,
+				y_vel_mps = 0.0,
+				z_vel_mps = 0.0,
+				x_acc_mps2 = 0.0,
+				y_acc_mps2 = 0.0,
+				z_acc_mps2 = 0.0,
+				
+				#Signature
+				radar_cross_section_dbsm = 0):
+					
+		self.state = np.array([x_loc_m,y_loc_m,z_loc_m,x_vel_mps,y_vel_mps,z_vel_mps]) 
+		self.rcs_dbsm = 0
+		self.rcs_lin = 10**(self.rcs_dbsm/10)
+			
+	def get_scatterer_entity_geo(self,entity):
+		''' 
+		x, y, and z distance relative to some entity, i.e. a transmitter.
+		'''
+		x = self.state[0] - entity.state[0]
+		y = self.state[1] - entity.state[1]
+		z = self.state[2] - entity.state[2]
+		zoa = np.arctan(np.sqrt(x**2 + y**2)/z)
+		aoa = np.sign(y) * np.arccos(x/np.sqrt(x**2 + y**2))
+		d = np.sqrt((x)**2 + (y)**2 + (z)**2)
+		return zoa,aoa,d
+```
+
+Finally, make a class called ```Simulation``` that acts as a common namespace and execution environment for your created entities. In the ```process_environment``` method, not the first few lines of code correspond to the previous Problem in that we set up the delay of the signal return.
+
+```python
+class Simulation:
+	'''
+	Top level simulation class for a 1v1 target vs track radar
+	'''
+	def __init__(self):
+	
+		self.target = Scatterer()
+								
+		self.radar = Radar()
+		
+			
+	def run_sim(self):
+		wf_object = self.radar.mywf
+		x = self.radar.transmitter.transmit_waveform(wf_object)
+		
+		#Truth target information
+		zoa,aoa,d = self.target.get_scatterer_entity_geo(self.radar.transmitter)
+		distance_samples_skin_return_m = np.arange(wf_object.samples_per_cpi_rf) / self.radar.receiver.Fs_rf * 3e8/2
+		
+		min_range_sample_to_d = np.argmin(np.abs(distance_samples_skin_return_m-d))
+		
+		#Truncate return signals outside cpi
+		x = x[:(wf_object.samples_per_cpi_rf-min_range_sample_to_d)]
+		
+		x = np.concatenate([np.zeros(wf_object.samples_per_cpi_rf-len(x)) + 0.0j,x])
+		
+			
+		#RRE
+		G2 = 10**(30/10) #placeholder gain for antenna transmit and receive
+		x = x * np.sqrt( G2 * (3e8/self.radar.transmitter.fc_rf)**2 * self.target.rcs_lin / d**4  / (4*np.pi)**3)
+		
+		x = self.radar.receiver.process_signal(x,wf_object)
+		print(f'Maximum Distance: {np.max(distance_samples_skin_return_m)}, Target Distance: {d}')
+		return x
+```
+
+Instantiate an instance of ```Simulation``` and run ```run_sim```
+
+![Alt text](../figs/sim_test.png?raw=true)
+
+#Problem 5
+
+How do we detect a signal out of noise?
