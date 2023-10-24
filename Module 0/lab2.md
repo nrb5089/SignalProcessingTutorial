@@ -356,7 +356,7 @@ plt.show()
 References and Further Reading
 [1] Scheer, Jim, and William A. Holm. "Principles of modern radar." (2010): Chapter 20 Section 12.
 [2] Scheer, Jim, and William A. Holm. "Principles of modern radar." (2010): Chapter 2.
-
+[3]  Richards, Mark A. Fundamentals of radar signal processing McGraw-Hill Education, 2014: Chapter 6
 
 
 The problems for this lab pertain to creating your own radar simulation, much more information can be found on the broad topic of radar in the MIT Lincoln Labs Introduction to Radar Course, in particular, the first lecture https://www.ll.mit.edu/sites/default/files/outreach/doc/2018-07/lecture%201.pdf.
@@ -817,4 +817,143 @@ Instantiate an instance of ```Simulation``` and run ```run_sim```
 
 #Problem 5
 
-How do we detect a signal out of noise?
+How do we detect a signal out of noise?  While there is a lot of interesting mathematics within Detection Theory, we defer the interested reader to [3] for more detail.  
+
+In general for a detection problem, we are interested in three quantities defined in [3]
+
+* Probability of Detection ($P_D$): The probability that a target IS declared when a target IS in fact present.
+* Probability of False Alarm ($P_{FA}$): The probability that a target IS declared when a target is in fact NOT present.
+* Probability of Missed Detection ($P_{MD}$): The probability that a target is NOT declared when a target IS in fact present.
+
+A good detector will maximize $P_D$, based on a user-choosen $P_{FA}$ as to not cause too many missed detections.  For now, we apply a barebones detector known as a Constant False Alarm Rate (CFAR), that works by comparing averages of sections of the return signal with itself.  In particular, we use the Cell- Averaging (CA) CFAR from Section 6.5.4 of [3], which calculated a threshold based on the samples around the "tested cell".  We require two pieces
+
+* Moving Window Average of samples
+* Constant to scale the threshold
+
+The moving windows consists of reference cells, $x_i$, and guard cells that are indicated by respective colors for 1D and 2D CFARs, for this portion, we only are concerned with 1D CFARs.
+
+![Alt text](../figs/cfar_windows.png?raw=true)
+
+We compute the moving window average of $N$ reference cells as 
+
+$$T_N = \frac{1}{N}\sum_{i = 1}^N \abs{x_i}$$
+
+for a linear detector, and 
+
+$$T_N = \frac{1}{N}\sum_{i = 1}^N \abs{x_i}^2$$
+
+for a square law detector.  As an array, a sliding window with 5 reference cells (one-sided, $N = 10$) and 2 guard cells (one sided) looks like
+
+```python
+sliding_window = 1/10 * np.array([1,1,1,1,1,0,0,0,0,0,1,1,1,1,1])
+```
+
+The middle element is the cell under test (CUT).
+
+
+We choose the CFAR constant based on a designer choice of $P_{FA}$, a value $1e-3 \leq P_{FA} \leq 1e-8$ is appropriate, depending on the design, we'll go for $P_{FA} = 1e-6$ here.  We compute the constant by
+
+$$\alpha = N((P_{FA}^(-1/N) -1)$$
+
+The CFAR class wrapper for a CA 1D is 
+
+
+```python
+class CA_CFAR1D:
+	def __init__(self,num_reference_cells_one_sided,
+				  num_guard_cells_one_sided,
+				  probability_of_false_alarm):
+		self.num_ref = num_reference_cells_one_sided
+		self.num_guard = num_guard_cells_one_sided
+		self.pfa = probability_of_false_alarm
+		
+		N = 2 * num_reference_cells_one_sided
+		self.cfar_constant = N * (probability_of_false_alarm**(-1/N) -1)
+		self.cfar_window = self.cfar_constant/N * np.concatenate([np.ones(self.num_ref),np.zeros(2*self.num_guard+ 1),np.ones(self.num_ref)])
+		
+	def calculate_cfar_thresh(self,x):
+		return np.convolve(x,self.cfar_window, mode = 'same')
+	
+	def build_detection_vector(self,x):
+		T = self.calculate_cfar_thresh(x)
+		det_vec = np.zeros(len(x)).astype('int')
+		det_vec[x>T] = 1
+		return det_vec
+```
+
+Add the following args and kwarg to your ```Receiver``` class
+
+* ```reference_cells_one_sided = 30```
+* ```guard_cells_one_sided = 5```
+* ```probability_false_alarm = 1e-6```
+* ```detector_type = 'square'```
+
+along with an attribute 
+
+```python
+self.det_type = detector_type
+```
+
+and within the ```__init__``` method, add
+
+```python
+self.cfar = CA_CFAR1D(reference_cells_one_sided, guard_cells_one_sided,probability_false_alarm)
+```
+
+Also add the following methods to ```Receiver``` class
+
+```python
+    def detector(self,x):
+		x = np.abs(x)
+		if self.det_type == 'square': x = x**2
+		return x
+		
+	def detect_single_signal(self,x):
+		x = self.detector(x)
+		T = self.cfar.calculate_cfar_thresh(x)
+		return x,T
+```
+
+Finally, in the ```process_signal``` method for ```Receiver``` add the following line after your matched filter application
+
+```python
+x,T = self.detect_single_signal(x)
+```
+
+```python
+	def process_signal(self,x,wf_object):
+		x = self.apply_rf2if_filter(x) #Can be bypassed if you don't have anything out of band.
+		x = x[::self.rf2if_ds]
+		x = self.add_receiver_noise(x)
+		x = self.apply_adc_filter(x)
+		x = x * np.exp(-1j*2*np.pi/self.Fs_if * self.fc_if *np.arange(len(x)))
+		x = wf_object.apply_bb_filter(x)
+		x = x[::self.if2bb_ds]
+		
+		x = np.convolve(x,np.conj(wf_object.mf_wf_bb), mode = 'same')
+		#####NEW##################
+		x,T = self.detect_single_signal(x)
+		##########################
+		
+		return x,T
+```
+
+Run the radar with your new CFAR detector and plot the threshold and signal.
+
+![Alt text](../figs/cfar_test.png?raw=true)
+
+Zoom in on the spike, unless you initialized your random number generator ```np.random.seed(seed = 0)```, your results may look slightly different. Note that the processed signal (blue line) does not exceed the threshold (orange line).  This situation results in a missed detection.
+
+![Alt text](../figs/cfar_demo_zoomed.png?raw=true)
+
+Incrementally add more transmitter power, increments of 1000 should be ok (i.e., go from 1000 to 2000 to 3000...) until you break the threshold.  This is just one way in which a receiver may be tuned, feel free to play with other parameters and see their effects.
+
+![Alt text](../figs/cfar_demo_zoomed_break.png?raw=true)
+
+Use the ```build_detection_vector``` method for your ```CACFAR_1D``` class to generate a binary array indicating where the signal breaks the threshold.
+
+![Alt text](../figs/det_vec.png?raw=true)
+
+Congratulations, you have now turned bits into symbols and turned symbols into bits!  You have a toolkit to construct basic generic single-pulse radars!
+
+![Alt text](../figs/lab2_diagram.png?raw=true)
