@@ -1,4 +1,4 @@
-# Module 0/lab0.md
+# Module 0 - Signal Processing MS in Python/lab0-IntroPythonNumpy.md
 
 Setting up Python environment
 
@@ -52,7 +52,7 @@ Problem 2: Determinant and Inverse
 
 Problem 3: Eigenvalues and Eigenvectors
 
-# Module 0/lab1.md
+# Module 0 - Signal Processing MS in Python/lab1-BasicSPPython.md
 
 Transitioning to Signals
 
@@ -84,7 +84,7 @@ Problem 1: Efficient Filtering
 
 Problem 2: 
 
-# Module 0/lab2.md
+# Module 0 - Signal Processing MS in Python/lab2-TxRx.md
 
 Transmitter and Receivers
 
@@ -110,7 +110,7 @@ Problem 4
 
 Problem 5
 
-# Module 1/lab0.md
+# Module 1 - Hardware Implementations/lab0-IntroEmbeddedDesign.md
 
 Introduction to Software Defined Radio (SDR) (or Software Controlled Radio)
 
@@ -126,7 +126,7 @@ Task 1
 
 Task 2
 
-# Module 1/lab1.md
+# Module 1 - Hardware Implementations/lab1-DDSPulse.md
 
 Direct Digital Synthesis (DDS)
 
