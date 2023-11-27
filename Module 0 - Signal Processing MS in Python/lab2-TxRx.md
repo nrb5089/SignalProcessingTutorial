@@ -414,7 +414,7 @@ mybutterfilter = ButterFilter(...)
 
 and filter signals by invoking the method ```mybutterfilter.filter_signal(x)```.  
 
-** DO THIS ** Your first task is to create a Python ```class``` called ```Receiver``` with attributes corresponding to:
+**DO THIS** Your first task is to create a Python ```class``` called ```Receiver``` with attributes corresponding to:
 
 * RF Sampling Frequency in Hz - 500 MHz
 * Intermediate Frequency (IF) Sampling Frequency in Hz - 100 MHz
@@ -517,7 +517,7 @@ The end result should look like the following:
 
 In the first problem, you modeled the RF front end of a receiver.  Generally, the first two filter chains represent analog processes, which we try to capture functionality of in a computer simulation with discrete numbers.  A lot of times, the front end may be bypassed altogether in a model if it is not impacting to the overall setup trying to be modeled.  We now shift our focus to the signal processor, the meat of the backend that processes the raw sampled digital signal.  
 
-** DO THIS ** Create a new Python class called ```SinglePulseWaveform``` with that has the following attributes:
+**DO THIS** Create a new Python class called ```SinglePulseWaveform``` with that has the following attributes:
 
 * Pulse Width in seconds - 10 us
 * Pulse Repetition Interval in seconds - 1000 us
@@ -565,7 +565,7 @@ The above snippet has precalculations for the number of samples in a pulse at th
     self.samples_per_cpi_bb = int(1 * self.samples_per_pri_bb)
 ```
 
-** DO THIS ** Create an array representing the LFM pulse signal described by the class attributes in ```SinglePulseWaveform```, note the sampling frequency is at RF.
+**DO THIS** Create an array representing the LFM pulse signal described by the class attributes in ```SinglePulseWaveform```, note the sampling frequency is at RF.
 
 ```python
 self.wf_single_pw = np.exp(1j * 2 * np.pi/self.Fs_rf * (self.fc_rf *np.arange(self.samples_per_pw_rf) + np.cumsum(np.linspace(self.fmin_bb,self.fmax_bb,self.samples_per_pw_rf))))
@@ -617,7 +617,7 @@ where $c = 3\times 10^8$ m/s is the speed of light in free space.  We can simula
     x = np.concatenate([np.zeros(myreceiver.mywf.samples_per_cpi_rf-len(x)) + 0.0j,x])
 ```
 
-** DO THIS ** Process ```x``` in the above snippet using your ```process_signal``` function constructed in Problem 1, then apply your matched filter from the ```SinglePulseWaveform``` instance you created, ```mywf```.  The output should look like the following, note the delay is roughly a third of the way through the overall receive window samples.  Matching this sample to a moment in time, then scaling by $c/2$ provides the distance estimation of the target.  But how do designate something as a detection, or not?  Surely noise can trigger detections if significant enough, let's find out in the next lab...
+**DO THIS** Process ```x``` in the above snippet using your ```process_signal``` function constructed in Problem 1, then apply your matched filter from the ```SinglePulseWaveform``` instance you created, ```mywf```.  The output should look like the following, note the delay is roughly a third of the way through the overall receive window samples.  Matching this sample to a moment in time, then scaling by $c/2$ provides the distance estimation of the target.  But how do designate something as a detection, or not?  Surely noise can trigger detections if significant enough, let's find out in the next lab...
 
 ![Alt text](../figs/distance_delay_test.png?raw=true)
 
@@ -631,7 +631,7 @@ We can scale the transmit power of the waveform as follows, for a transmit power
 transmit_signal = np.sqrt(P_t) * wf_rf
 ```
 
-** DO THIS ** Create the following classes:
+**DO THIS** Create the following classes:
 
 Let's add a wrapper class, ```Transmitter``` as
 
@@ -714,7 +714,7 @@ def process_signal(self,x,wf_object):
 		return x
 ```
 
-** DO THIS ** Take things a step further and create ```Receiver``` and ```Transmitter``` as instantiations in (they don't necessarily have to be child classes, but can be handy when they are often co-located) a higher level wrapper class, ```Radar```.  Put the ```SinglePulseWaveform``` instantiation in the ```__init__``` function
+**DO THIS** Take things a step further and create ```Receiver``` and ```Transmitter``` as instantiations in (they don't necessarily have to be child classes, but can be handy when they are often co-located) a higher level wrapper class, ```Radar```.  Put the ```SinglePulseWaveform``` instantiation in the ```__init__``` function
 
 ```python
 class Radar:
@@ -735,7 +735,7 @@ class Radar:
                                         
 ```
 
-** DO THIS ** Add a class called ```Scatterer```:
+**DO THIS** Add a class called ```Scatterer```:
 
 ```python
 class Scatterer:

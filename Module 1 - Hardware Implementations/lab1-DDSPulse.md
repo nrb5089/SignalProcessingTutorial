@@ -1,5 +1,7 @@
 # Direct Digital Synthesis (DDS)
 
+*Estimated Time to Complete: 2.5-3 hours*
+
 Imagine you're a painter, but instead of a brush and paint, you're equipped with numbers and math. Your canvas? The world of digital signals. In this vibrant world, Direct Digital Synthesis (DDS) is your superpower. With DDS, you can conjure up any waveform you desire—sine waves, square waves, and everything in between—just by crunching some numbers. 
 
 Picture it as a magical music box: you turn the crank (input a frequency), and out comes a beautiful, pristine wave, ready to serenade the digital world. And the best part? You're the maestro, conducting your waves with pinpoint accuracy, adjusting the tempo (frequency) and volume (amplitude) at your will, all in real-time.
