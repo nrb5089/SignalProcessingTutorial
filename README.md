@@ -150,11 +150,27 @@ Task 2
 
 # Module 1 - Hardware Implementations/lab1-DDSPulse.md
 
-Direct Digital Synthesis (DDS)
+Testing Signal Processing Blocks
+
+The DDS Compiler Block
+
+Running a Simulation
+
+Update HDL Wrapper
+
+Changing the Frequency
+
+Pulse Control
 
 # Module 1 - Hardware Implementations/lab2-RadarStatemachinesVerilog.md
 
 Schedulers and State Machines
+
+Basic Pulse Controller
+
+Multiple PRI Controller
+
+Nested Scheduling
 
 # Module 1 - Hardware Implementations/lab3-AXI.md
 
