@@ -110,6 +110,28 @@ Problem 4
 
 Problem 5
 
+# Module 0 - Signal Processing MS in Python/lab3-RadarDesign.md
+
+# Module 0 - Signal Processing MS in Python/lab4-CommsDesign.md
+
+# Module 0 - Signal Processing MS in Python/labA0-StochasticModels.md
+
+Stochastic Models
+
+Common Random Variables
+
+Gaussian or Normal
+
+Random Vectors
+
+Leaving Kansas...
+
+Circularly Symmetric Complex Gaussian
+
+Ricean (Rice) and Non-Central Chi-Squared degree 2
+
+Problem 1
+
 # Module 1 - Hardware Implementations/lab0-IntroEmbeddedDesign.md
 
 Introduction to Software Defined Radio (SDR) (or Software Controlled Radio)
@@ -130,27 +152,11 @@ Task 2
 
 Direct Digital Synthesis (DDS)
 
-# Module 2/lab0.md
+# Module 1 - Hardware Implementations/lab2-RadarStatemachinesVerilog.md
 
-Stochastic Models
+Schedulers and State Machines
 
-Common Random Variables
-
-Gaussian or Normal
-
-Random Vectors
-
-Leaving Kansas...
-
-Circularly Symmetric Complex Gaussian
-
-Ricean (Rice) and Non-Central Chi-Squared degree 2
-
-Project
-
-Problem 1
-
-# Module 2/lab1.md
+# Module 1 - Hardware Implementations/lab3-AXI.md
 
 What in the world is AXI?
 
@@ -169,8 +175,4 @@ AXI Basics 6 - Introduction to AXI4-Lite in Vitis HLS
 AXI Basics 7 - Connecting to the PS using AXI4-Lite and Vitis HLS
 
 AXI-Lite Example from scratch 
-
-# Module 2/lab2.md
-
-Schedulers and State Machines
 
