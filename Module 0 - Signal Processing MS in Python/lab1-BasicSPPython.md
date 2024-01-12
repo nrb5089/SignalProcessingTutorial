@@ -1,7 +1,7 @@
 # Transitioning to Signals
 
 
-## Why all the emphasis on arrays?
+# Why all the emphasis on arrays?
 
 Arrays are a fundamental part of handling and manipulating signals and images in computational and data science contexts. Both **digital** signals and images can be represented as arrays of numerical data (**analog** can only be approximated), which can then be processed and analyzed using a variety of techniques.
 
@@ -151,7 +151,7 @@ The key to mapping frequency from sample rate in the x-axis tick marks for the s
 
 Let's take a moment to elaborate on what was generated, a cosine (or sine) wave consists of a single frequency, therefore in the frequency domain we expect a single point whose peak is proportional to the signal power.  The reason for the two lines here is that the real-valued component (in this case the signal is all-real) has a symmetry about the y-axis (a negative frequency).  This negative frequency, while purely theoretical, must be incorporated in our models for real-life applications where issues with unwanted images get included.
 
-## Signal Filtering
+# Signal Filtering
 
 Filtering is a method to remove certain ranges of frequencies. For example, we could use a simple mean filter (also known as a moving average filter) to smooth our signal, $\textbf{y} = \textbf{a} * \textbf{h}$:
 
@@ -244,7 +244,7 @@ Note in the figure on the bottom that the higher frequency sine wave has been re
 ![Alt text](../figs/butter_freq_filter_response.png?raw=true)
 
 
-## Multi-Rate Signal Processing
+# Multi-Rate Signal Processing
 
 Imagine you're at a sports game and you want to capture the most crucial moments, both as photographs and videos. 
 
@@ -266,7 +266,7 @@ In Summary:
 
 Multi-rate digital signal processing is like having a camera that can switch between taking occasional photos and shooting high-frame-rate videos, depending on what's happening. It's about adapting the "rate" of processing to best match the signal's content or the system's requirements, leading to more efficient and flexible systems. Refer to [3] for more details.
 
-### Decimation (Downsampling)
+## Decimation (Downsampling)
 
 ```python
 import numpy as np
@@ -312,7 +312,7 @@ plt.show()
 ```
 ![Alt text](../figs/filter_decimation.png?raw=true)
 
-### Interpolation (Upsampling*)
+## Interpolation (Upsampling*)
 
 *More than just inserting zeros...
 
@@ -410,11 +410,11 @@ Remember that in this example we consider a finite number of samples for reconst
 
 Certainly! Let's break down each concept and then demonstrate them with Python code.
 
-### Center Frequency and Mixing 
+# Center Frequency and Mixing 
 
 Frequency conversion and the use of intermediate frequency (IF) stages are fundamental concepts in radio and radar systems. These techniques are employed for several reasons, enhancing the performance, flexibility, and functionality of communication and sensing systems. Here's a detailed overview:
 
-#### Reasons for Frequency Conversion:
+### Reasons for Frequency Conversion:
 
 **Improving Antenna Performance:**
 - Antennas are typically more efficient when they are about half the wavelength of the transmitted or received signal. For high-frequency signals (like those in the GHz range), this would mean very small antennas. By converting to a lower IF, you can use a more efficiently sized antenna.
@@ -431,7 +431,7 @@ Frequency conversion and the use of intermediate frequency (IF) stages are funda
 **Allowing for Frequency Multiplexing:**
 - Multiple signals can be upconverted to different carrier frequencies, combined, and transmitted simultaneously over a single channel (frequency multiplexing). At the receiver, they are then downconverted and separated, which is more manageable at IF.
 
-#### Use of Intermediate Frequency Stages:
+### Use of Intermediate Frequency Stages:
 
 **Improving Gain and Noise Performance:**
 - By using multiple stages of IF, the system can achieve high gain more linearly and with better noise performance. This is crucial in both communication and radar systems for detecting weak signals.
@@ -452,7 +452,7 @@ In summary, frequency conversion and IF stages are critical in radio and radar t
 
 Let's take a look at some examples:
 
-#### 1. Center Frequency
+## Center Frequency
 
    - This is the frequency at the center of a bandwidth of interest in a signal. In radio communications, it refers to the frequency of a carrier wave.
 
@@ -474,11 +474,11 @@ plt.ylabel("Amplitude")
 plt.show()
 ```
 
-#### 2. Mixing a Signal with a Carrier
+### Mixing a Signal with a Carrier
 
    - Mixing involves combining two signals. In the context of radio communications, it typically refers to combining a baseband signal (like audio or data) with a carrier signal (a sinusoidal wave at a much higher frequency). This process is fundamental to modulating a signal for transmission.
 
-#### 3. Upconversion
+## Upconversion
    - Upconversion is the process of shifting a signal from a lower frequency (baseband) to a higher frequency. This is typically done for transmission purposes, where a low-frequency baseband signal is shifted to a high-frequency carrier.
 
 ```python
@@ -538,7 +538,7 @@ plt.show()
 
 Let's look at the frequency domain closer, in the mixed signal, note that there is an **image** in the "negative" frequencies.  While practically the concept of "negative frequency" isn't really a thing, this theoretical concept plays a role in practice.  Note that the carrier used was an all real signal, and that the spectrum of a real signal is always symmetric (if ```sine``` used, it's actually negative symmetric). One might try downconversion by simply upconverting the image.  Let's see what happens
 
-#### 4. Downconversion
+## Downconversion
    - Downconversion is the opposite of upconversion. It's the process of shifting a signal from a higher frequency to a lower frequency. This is usually done at the receiver end to convert the received high-frequency signal back to its original baseband form.
    
 ```python
@@ -681,7 +681,9 @@ plt.show()
 
 ![Alt text](../figs/ook_complex_freq.png?raw=true)
 
-There you have it, no filtering needed, you just need a conjugate (negative imaginary part) for downconversion of the carrier used previously for upconversion.
+There you have it, no filtering needed, you just need a conjugate (negative imaginary part) for downconversion of the carrier used previously for upconversion.  
+
+
 
 
 References and Further Reading
