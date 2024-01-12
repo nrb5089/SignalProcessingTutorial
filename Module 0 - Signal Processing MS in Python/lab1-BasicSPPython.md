@@ -609,7 +609,7 @@ plt.show()
 
 As you can see, downconversion alone is not sufficient without filtering.  The added high-frequency components added in the additional image can cause processing errors. Hence, we applied a low-pass filter and design our ```cutoff``` to be the frequency at which we are sending On-Off Keyed symbols (40 per second or 40 Hz).
 
-#### Complex Carrier
+## Complex Carrier
 
 Often a real carrier is adopted for analog processes due to the need for two RF paths with complex-valued signal processing.  However, in the digital domain, it often makes more sense to work with complex values as follows.  We reuse our example, but use a complex exponential ```np.exp()``` instead.
 
@@ -683,6 +683,7 @@ plt.show()
 
 There you have it, no filtering needed, you just need a conjugate (negative imaginary part) for downconversion of the carrier used previously for upconversion.  
 
+You will see some more use of complex-valued signals in the next lab.  
 
 
 

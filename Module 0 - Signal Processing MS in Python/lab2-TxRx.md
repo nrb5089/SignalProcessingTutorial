@@ -8,7 +8,7 @@ In-phase Quadrature (IQ) signals are used extensively in signal processing and t
 
 To understand IQ signals, let's start with an introduction to basic concepts:
 
-- **Baseband signal**: A signal with frequency components that are close to zero (around DC). It's the original frequency band of a signal before it's modulated for transmission.
+- **Baseband signal**: A signal with frequency components that are close to zero (around DC). It's the original frequency band of a signal before it's modulated for transmission. 
 
 - **Passband signal**: A signal that has been modulated to a higher frequency band for transmission. It's called a passband signal because it's within the frequency band, or "passband," of the transmission channel.
 
@@ -51,7 +51,9 @@ plt.ylabel('Amplitude')
 plt.show()
 ```
 
-**Important Note:**  The baseband IQ represenation is a complex value, and in practice requires two data streams (for digital) or physical ports resources (for analog).
+**Important Note:**  The baseband IQ represenation is a complex value, and in practice requires two data streams (for digital) or physical ports resources (for analog).  
+
+
 
 We first expand to look at other types of signals used in radar and/or comms
 Sure, let's dive into each of these topics.
@@ -135,6 +137,8 @@ ax[0].set_xlabel('Time (seconds)')
 ![Alt text](../figs/bpskdemo.png?raw=true)
 
 ### Passband IQ Representation
+
+In the previous lab, you worked with a signal that was all-real, hence the baseband representation is also real.  **The main takeaway from this subsection is that ANY signal may be represented as real OR complex**.
 
 In passband representation, the baseband IQ signal is modulated to a higher frequency for transmission. Why does it need to be at a certain frequency?
 Let's approach this using an analogy:
