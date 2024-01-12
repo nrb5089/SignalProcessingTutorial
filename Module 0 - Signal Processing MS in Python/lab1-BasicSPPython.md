@@ -407,6 +407,283 @@ Remember that in this example we consider a finite number of samples for reconst
 
 ![Alt text](../figs/signal_reconstruction.png?raw=true)
 
+
+Certainly! Let's break down each concept and then demonstrate them with Python code.
+
+### Center Frequency and Mixing 
+
+Frequency conversion and the use of intermediate frequency (IF) stages are fundamental concepts in radio and radar systems. These techniques are employed for several reasons, enhancing the performance, flexibility, and functionality of communication and sensing systems. Here's a detailed overview:
+
+#### Reasons for Frequency Conversion:
+
+**Improving Antenna Performance:**
+- Antennas are typically more efficient when they are about half the wavelength of the transmitted or received signal. For high-frequency signals (like those in the GHz range), this would mean very small antennas. By converting to a lower IF, you can use a more efficiently sized antenna.
+
+**Easing Filter Requirements:**
+- Filtering high-frequency signals to remove unwanted components (like noise or adjacent channel signals) is challenging because it requires very sharp filters. It's easier and more cost-effective to filter at a lower IF.
+
+**Enhancing Frequency Selectivity:**
+- When signals are downconverted to IF, it's easier to achieve high selectivity (distinguishing the desired signal from nearby frequencies), as filter performance is generally better at lower frequencies.
+
+**Facilitating Amplification:**
+- Amplifying high-frequency signals without distortion is more challenging and expensive than amplifying lower-frequency signals. Downconversion allows for more effective and efficient amplification at IF.
+
+**Allowing for Frequency Multiplexing:**
+- Multiple signals can be upconverted to different carrier frequencies, combined, and transmitted simultaneously over a single channel (frequency multiplexing). At the receiver, they are then downconverted and separated, which is more manageable at IF.
+
+#### Use of Intermediate Frequency Stages:
+
+**Improving Gain and Noise Performance:**
+- By using multiple stages of IF, the system can achieve high gain more linearly and with better noise performance. This is crucial in both communication and radar systems for detecting weak signals.
+
+**Simplifying Tuning:**
+- In receivers, especially those with wide tuning ranges (like in a broadcast receiver), it's easier to implement the variable tuning at a fixed IF rather than at the variable incoming frequency.
+
+**Enabling Complex Signal Processing:**
+- Many advanced signal processing techniques (like certain types of demodulation or digital signal processing) are more effectively implemented at lower frequencies. Downconverting to IF facilitates this.
+
+**Facilitating Doppler Processing in Radar Systems:**
+- In radar, downconverting to IF allows for effective Doppler processing, which is used to measure the velocity of targets.
+
+**Allowing for Better Integration and Miniaturization:**
+- Modern electronic components (like integrated circuits) are better suited for lower-frequency operations. Using IF stages makes it easier to integrate and miniaturize the system.
+
+In summary, frequency conversion and IF stages are critical in radio and radar technology, as they allow for more efficient antenna design, easier filtering and amplification, improved frequency selectivity, and effective implementation of advanced signal processing techniques. These techniques enable the practical realization of high-performance, versatile, and compact communication and sensing systems.
+
+Let's take a look at some examples:
+
+#### 1. Center Frequency
+
+   - This is the frequency at the center of a bandwidth of interest in a signal. In radio communications, it refers to the frequency of a carrier wave.
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Carrier Signal
+fs = 1000  # Sampling frequency
+fc = 100   # Center frequency (carrier frequency)
+N = 100 
+t = np.arange(N)/fs
+carrier = np.cos(2 * np.pi * fc * t)
+
+plt.plot(t, carrier)
+plt.title("Carrier Signal at Center Frequency")
+plt.xlabel("Time (s)")
+plt.ylabel("Amplitude")
+plt.show()
+```
+
+#### 2. Mixing a Signal with a Carrier
+
+   - Mixing involves combining two signals. In the context of radio communications, it typically refers to combining a baseband signal (like audio or data) with a carrier signal (a sinusoidal wave at a much higher frequency). This process is fundamental to modulating a signal for transmission.
+
+#### 3. Upconversion
+   - Upconversion is the process of shifting a signal from a lower frequency (baseband) to a higher frequency. This is typically done for transmission purposes, where a low-frequency baseband signal is shifted to a high-frequency carrier.
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Carrier Signal
+fs = 1000  # Sampling frequency
+fc = 100   # Center frequency (carrier frequency)
+N = 500
+t = np.arange(N)/fs
+carrier = np.cos(2 * np.pi * fc * t)
+
+# Baseband Signal (On-Off Keying)
+num_chips = 20
+symbol_rate = 20/t[-1]
+data = np.random.choice([0, 1], size=num_chips)  # Random binary data
+baseband = np.repeat(data, int(N/num_chips))  # Repeat each bit for a duration
+
+# Mixing
+mixed_signal = baseband * carrier
+
+fig,ax = plt.subplots(3,1)
+ax[0].plot(t, carrier)
+ax[0].set_title("Carrier")
+ax[1].plot(t, baseband)
+ax[1].set_title('Baseband')
+ax[2].plot(t, mixed_signal)
+ax[2].set_title("Mixed Signal")
+ax[-1].set_xlabel("Time (s)")
+fig.text(0.04, 0.5, 'Amplitude', va='center', rotation='vertical',fontsize = 14)
+
+
+# Frequency Domain
+Carrier = np.fft.fftshift(np.fft.fft(carrier))
+Baseband = np.fft.fftshift(np.fft.fft(baseband))
+Mixed_signal = np.fft.fftshift(np.fft.fft(mixed_signal))
+
+f = np.linspace(-fs/2,fs/2,N)
+
+fig,ax = plt.subplots(3,1)
+ax[0].plot(f, np.abs(Carrier))
+ax[0].set_title("Carrier")
+ax[1].plot(f, np.abs(Baseband))
+ax[1].set_title('Baseband')
+ax[2].plot(f, np.abs(Mixed_signal))
+ax[2].set_title("Mixed Signal")
+ax[-1].set_xlabel("Frequency (Hz)")
+fig.text(0.04, 0.5, 'Magnitude', va='center', rotation='vertical',fontsize = 14)
+
+plt.show()
+```
+
+![Alt text](../figs/ook_mixed_time.png?raw=true)
+
+![Alt text](../figs/ook_mixed_freq.png?raw=true)
+
+Let's look at the frequency domain closer, in the mixed signal, note that there is an **image** in the "negative" frequencies.  While practically the concept of "negative frequency" isn't really a thing, this theoretical concept plays a role in practice.  Note that the carrier used was an all real signal, and that the spectrum of a real signal is always symmetric (if ```sine``` used, it's actually negative symmetric). One might try downconversion by simply upconverting the image.  Let's see what happens
+
+#### 4. Downconversion
+   - Downconversion is the opposite of upconversion. It's the process of shifting a signal from a higher frequency to a lower frequency. This is usually done at the receiver end to convert the received high-frequency signal back to its original baseband form.
+   
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.signal import butter, lfilter, freqz
+
+# Carrier Signal
+fs = 1000  # Sampling frequency
+fc = 100   # Center frequency (carrier frequency)
+N = 500
+t = np.arange(N)/fs
+carrier = np.cos(2 * np.pi * fc * t)
+
+# Baseband Signal (On-Off Keying)
+num_chips = 20
+symbol_rate = num_chips/t[-1]
+data = np.random.choice([0, 1], size=num_chips)  # Random binary data
+baseband = np.repeat(data, int(N/num_chips))  # Repeat each bit for a duration
+
+# Design the Butterworth filter
+cutoff = 40
+b, a = butter(4, Wn = cutoff, btype='low', fs = fs, analog=False)
+
+# Mixing
+mixed_signal = baseband * carrier
+downconverted_signal = mixed_signal * carrier
+
+#Filtering
+downconverted_filtered_signal = lfilter(b, a, downconverted_signal)
+
+fig,ax = plt.subplots(3,1)
+ax[0].plot(t, baseband)
+ax[0].set_title('Original Signal')
+ax[1].plot(t, downconverted_signal)
+ax[1].set_title("Downconverted Signal")
+ax[2].plot(t, downconverted_filtered_signal)
+ax[2].set_title("Downconverted and Filtered Signal")
+ax[-1].set_xlabel("Time (s)")
+fig.text(0.04, 0.5, 'Amplitude', va='center', rotation='vertical',fontsize = 14)
+
+# Frequency Domain
+Baseband = np.fft.fftshift(np.fft.fft(baseband))
+Mixed_signal = np.fft.fftshift(np.fft.fft(mixed_signal))
+Downconverted_signal = np.fft.fftshift(np.fft.fft(downconverted_signal))
+Downconverted_filtered_signal = np.fft.fftshift(np.fft.fft(downconverted_filtered_signal))
+
+f = np.linspace(-fs/2,fs/2,N)
+
+fig,ax = plt.subplots(3,1)
+ax[0].plot(f, np.abs(Baseband))
+ax[0].set_title('Original Signal')
+ax[1].plot(f, np.abs(Downconverted_signal))
+ax[1].set_title("Downconverted Signal")
+ax[2].plot(f, Downconverted_filtered_signal)
+ax[2].set_title("Downconverted and Filtered Signal")
+ax[-1].set_xlabel("Frequency (Hz)")
+fig.text(0.04, 0.5, 'Magnitude', va='center', rotation='vertical',fontsize = 14)
+
+
+
+plt.show()
+```
+
+![Alt text](../figs/ook_dc_time.png?raw=true)
+
+![Alt text](../figs/ook_dc_freq.png?raw=true)
+
+As you can see, downconversion alone is not sufficient without filtering.  The added high-frequency components added in the additional image can cause processing errors. Hence, we applied a low-pass filter and design our ```cutoff``` to be the frequency at which we are sending On-Off Keyed symbols (40 per second or 40 Hz).
+
+#### Complex Carrier
+
+Often a real carrier is adopted for analog processes due to the need for two RF paths with complex-valued signal processing.  However, in the digital domain, it often makes more sense to work with complex values as follows.  We reuse our example, but use a complex exponential ```np.exp()``` instead.
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.signal import butter, lfilter, freqz
+
+# Carrier Signal
+fs = 1000  # Sampling frequency
+fc = 100   # Center frequency (carrier frequency)
+N = 500
+t = np.arange(N)/fs
+carrier = np.exp(1j * 2 * np.pi * fc * t)
+
+# Baseband Signal (On-Off Keying)
+num_chips = 20
+symbol_rate = num_chips/t[-1]
+data = np.random.choice([0, 1], size=num_chips)  # Random binary data
+baseband = np.repeat(data, int(N/num_chips))  # Repeat each bit for a duration
+
+# Mixing
+mixed_signal = baseband * carrier
+downconverted_signal = mixed_signal * np.conj(carrier)
+
+
+fig,ax = plt.subplots(4,1)
+ax[0].plot(t, np.real(carrier))
+ax[0].plot(t, np.imag(carrier))
+ax[0].set_title("Carrier")
+ax[1].plot(t, np.real(baseband))
+ax[1].plot(t, np.imag(baseband))
+ax[1].set_title('Baseband')
+ax[2].plot(t, np.real(mixed_signal))
+ax[2].plot(t, np.imag(mixed_signal))
+ax[2].set_title("Mixed Signal")
+ax[3].plot(t, np.real(downconverted_signal))
+ax[3].plot(t, np.imag(downconverted_signal))
+ax[3].set_title("Downconverted Signal")
+ax[-1].set_xlabel("Time (s)")
+fig.text(0.04, 0.5, 'Amplitude', va='center', rotation='vertical',fontsize = 14)
+
+
+# Frequency Domain
+Carrier = np.fft.fftshift(np.fft.fft(carrier))
+Baseband = np.fft.fftshift(np.fft.fft(baseband))
+Mixed_signal = np.fft.fftshift(np.fft.fft(mixed_signal))
+Downconverted_signal = np.fft.fftshift(np.fft.fft(downconverted_signal))
+
+f = np.linspace(-fs/2,fs/2,N)
+
+fig,ax = plt.subplots(4,1)
+ax[0].plot(f, np.abs(Carrier))
+ax[0].set_title("Carrier")
+ax[1].plot(f, np.abs(Baseband))
+ax[1].set_title('Baseband')
+ax[2].plot(f, np.abs(Mixed_signal))
+ax[2].set_title("Mixed Signal")
+ax[3].plot(f, np.abs(Downconverted_signal))
+ax[3].set_title("Downconverted Signal")
+ax[-1].set_xlabel("Frequency (Hz)")
+fig.text(0.04, 0.5, 'Magnitude', va='center', rotation='vertical',fontsize = 14)
+
+
+plt.show()
+```
+
+![Alt text](../figs/ook_complex_time.png?raw=true)
+
+![Alt text](../figs/ook_complex_freq.png?raw=true)
+
+There you have it, no filtering needed, you just need a conjugate (negative imaginary part) for downconversion of the carrier used previously for upconversion.
+
+
 References and Further Reading
 
 [1] Alan V. Oppenheim and Ronald W. Schafer. 2009. Discrete-Time Signal Processing (3rd. ed.). Prentice Hall Press, USA.

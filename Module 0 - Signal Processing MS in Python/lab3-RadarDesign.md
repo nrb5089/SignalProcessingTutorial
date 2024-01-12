@@ -47,64 +47,64 @@ In this section we decide to introduce the problems within the sections themselv
 Please use the following parameters for the following design problems:
 
 ```python
-    radar_params = {}
-    
-    #Transmitter Parameters
-	radar_params['x_loc_m_tx'] = 0.0
-	radar_params['y_loc_m_tx'] = 0.0
-	radar_params['z_loc_m_tx'] = 3.0
-	radar_params['x_vel_mps_tx'] = 0.0
-	radar_params['y_vel_mps_tx'] = 0.0
-	radar_params['z_vel_mps_tx'] = 0.0
-	radar_params['x_acc_mps2_tx'] = 0.0
-	radar_params['y_acc_mps2_tx'] = 0.0
-	radar_params['z_acc_mps2_tx'] = 0.0
-	radar_params['rf_sampling_frequency_hz'] = 500e6
-	radar_params['if_sampling_frequency_hz'] = 100e6
-	radar_params['bb_sampling_frequency_hz'] = 25e6
-	radar_params['rf_center_frequency_hz'] = 115e6
-	radar_params['rf_bandwidth_hz'] = 20e6
-	radar_params['transmit_power_w'] = 100 #per element
-	radar_params['internal_loss_db_tx'] = 2
-	
-    #Receiver Parameters
-	radar_params['x_loc_m_rx'] = 0.0 
-	radar_params['y_loc_m_rx'] = 0.0
-	radar_params['z_loc_m_rx'] = 3.0
-	radar_params['x_vel_mps_rx'] = 0.0
-	radar_params['y_vel_mps_rx'] = 0.0
-	radar_params['z_vel_mps_rx'] = 0.0
-	radar_params['x_acc_mps2_rx'] = 0.0
-	radar_params['y_acc_mps2_rx'] = 0.0
-	radar_params['z_acc_mps2_rx'] = 0.0
-	radar_params['rf_sampling_frequency_hz'] = 500e6
-	radar_params['if_sampling_frequency_hz'] = 100e6
-	radar_params['bb_sampling_frequency_hz'] = 25e6
-	radar_params['rf_center_frequency_hz'] = 115e6
-	radar_params['rf_bandwidth_hz'] = 20e6
-	radar_params['internal_loss_db_rx'] = 2
-    
-    #Detection
-	radar_params['num_reference_cells_range_one_sided'] = 20
-	radar_params['num_guard_cells_range_one_sided'] = 7
-	radar_params['num_reference_cells_doppler_one_sided'] = 10
-	radar_params['num_guard_cells_doppler_one_sided'] = 3
-	radar_params['probability_false_alarm'] = 1e-3
-	radar_params['probability_false_alarm_2D'] = 1e-2
-	radar_params['detector_type'] = 'square'
-    
-    #Scatterer/Target
-    target_params = {}
-	target_params['x_loc_m'] = 31000.0 #100 nmi
-	target_params['y_loc_m'] = 0
-	target_params['z_loc_m'] = 10668 #35kft
-	target_params['x_vel_mps'] = -250 #550 knots Remember this is relative to the radar
-	target_params['y_vel_mps'] = 0
-	target_params['z_vel_mps'] = 0.0
-	target_params['x_acc_mps2'] = .1
-	target_params['y_acc_mps2'] = .001
-	target_params['z_acc_mps2'] = .001
-	target_params['radar_cross_section_dbsm'] =25
+radar_params = {}
+
+#Transmitter Parameters
+radar_params['x_loc_m_tx'] = 0.0
+radar_params['y_loc_m_tx'] = 0.0
+radar_params['z_loc_m_tx'] = 3.0
+radar_params['x_vel_mps_tx'] = 0.0
+radar_params['y_vel_mps_tx'] = 0.0
+radar_params['z_vel_mps_tx'] = 0.0
+radar_params['x_acc_mps2_tx'] = 0.0
+radar_params['y_acc_mps2_tx'] = 0.0
+radar_params['z_acc_mps2_tx'] = 0.0
+radar_params['rf_sampling_frequency_hz'] = 500e6
+radar_params['if_sampling_frequency_hz'] = 100e6
+radar_params['bb_sampling_frequency_hz'] = 25e6
+radar_params['rf_center_frequency_hz'] = 115e6
+radar_params['rf_bandwidth_hz'] = 20e6
+radar_params['transmit_power_w'] = 100 #per element
+radar_params['internal_loss_db_tx'] = 2
+
+#Receiver Parameters
+radar_params['x_loc_m_rx'] = 0.0 
+radar_params['y_loc_m_rx'] = 0.0
+radar_params['z_loc_m_rx'] = 3.0
+radar_params['x_vel_mps_rx'] = 0.0
+radar_params['y_vel_mps_rx'] = 0.0
+radar_params['z_vel_mps_rx'] = 0.0
+radar_params['x_acc_mps2_rx'] = 0.0
+radar_params['y_acc_mps2_rx'] = 0.0
+radar_params['z_acc_mps2_rx'] = 0.0
+radar_params['rf_sampling_frequency_hz'] = 500e6
+radar_params['if_sampling_frequency_hz'] = 100e6
+radar_params['bb_sampling_frequency_hz'] = 25e6
+radar_params['rf_center_frequency_hz'] = 115e6
+radar_params['rf_bandwidth_hz'] = 20e6
+radar_params['internal_loss_db_rx'] = 2
+
+#Detection
+radar_params['num_reference_cells_range_one_sided'] = 20
+radar_params['num_guard_cells_range_one_sided'] = 7
+radar_params['num_reference_cells_doppler_one_sided'] = 10
+radar_params['num_guard_cells_doppler_one_sided'] = 3
+radar_params['probability_false_alarm'] = 1e-3
+radar_params['probability_false_alarm_2D'] = 1e-2
+radar_params['detector_type'] = 'square'
+
+#Scatterer/Target
+target_params = {}
+target_params['x_loc_m'] = 31000.0 #100 nmi
+target_params['y_loc_m'] = 0
+target_params['z_loc_m'] = 10668 #35kft
+target_params['x_vel_mps'] = -250 #550 knots Remember this is relative to the radar
+target_params['y_vel_mps'] = 0
+target_params['z_vel_mps'] = 0.0
+target_params['x_acc_mps2'] = .1
+target_params['y_acc_mps2'] = .001
+target_params['z_acc_mps2'] = .001
+target_params['radar_cross_section_dbsm'] =25
 ```
 
 ### Problem: Basic 360 Azimuth Scan
@@ -117,23 +117,23 @@ The parameter dicts passed to your ```init``` looks like:
 
 ```python
 antenna_params = {}
-	antenna_params['azimuth_beam_width'] = 15 * np.pi/180
-	antenna_params['elevation_beam_width'] = 25 * np.pi/180
-	antenna_params['peak_antenna_gain_db'] = 0
-	antenna_params['first_side_lobe_down_az_db'] = 10
-	antenna_params['first_side_lobe_down_el_db'] = 8
-	antenna_params['second_side_lobe_down_az_db'] = 15
-	antenna_params['second_side_lobe_down_el_db'] = 12
-	antenna_params['back_lobe_down_db'] = 20
-    
+antenna_params['azimuth_beam_width'] = 15 * np.pi/180
+antenna_params['elevation_beam_width'] = 25 * np.pi/180
+antenna_params['peak_antenna_gain_db'] = 0
+antenna_params['first_side_lobe_down_az_db'] = 10
+antenna_params['first_side_lobe_down_el_db'] = 8
+antenna_params['second_side_lobe_down_az_db'] = 15
+antenna_params['second_side_lobe_down_el_db'] = 12
+antenna_params['back_lobe_down_db'] = 20
 
-    radar_params['wf_list'] = [{'index': 0, 'type': 'single', 'pw': 100e-6, 'pri': 1500e-6, 'lfm_excursion' : 2e6, 'pris_per_cpi': 1},
-							{'index': 1, 'type': 'single', 'pw': 100e-6, 'pri': 1550e-6, 'lfm_excursion' : 2e6, 'pris_per_cpi': 1},
-							{'index': 2, 'type': 'single', 'pw': 100e-6, 'pri': 1100e-6, 'lfm_excursion' : 2e6, 'pris_per_cpi': 1}]
-                            
-    radar_params['wf_sequences'] = [{'index': 0, 'type' : 'single_pulse_stagger', 'sequence' : [0]},
-						  {'index': 1, 'type' : 'single_pulse_stagger', 'sequence' : [0,1,2,0,1,2,1]}]
-                          
+
+radar_params['wf_list'] = [{'index': 0, 'type': 'single', 'pw': 100e-6, 'pri': 1500e-6, 'lfm_excursion' : 2e6, 'pris_per_cpi': 1},
+                        {'index': 1, 'type': 'single', 'pw': 100e-6, 'pri': 1550e-6, 'lfm_excursion' : 2e6, 'pris_per_cpi': 1},
+                        {'index': 2, 'type': 'single', 'pw': 100e-6, 'pri': 1100e-6, 'lfm_excursion' : 2e6, 'pris_per_cpi': 1}]
+                        
+radar_params['wf_sequences'] = [{'index': 0, 'type' : 'single_pulse_stagger', 'sequence' : [0]},
+                      {'index': 1, 'type' : 'single_pulse_stagger', 'sequence' : [0,1,2,0,1,2,1]}]
+                      
 
 ```
 
