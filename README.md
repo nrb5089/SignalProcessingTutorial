@@ -78,6 +78,20 @@ Decimation (Downsampling)
 
 Interpolation (Upsampling*)
 
+Center Frequency and Mixing 
+
+Reasons for Frequency Conversion:
+
+Use of Intermediate Frequency Stages:
+
+Center Frequency
+
+Mixing a Signal with a Carrier
+
+Upconversion
+
+Downconversion
+
 Project
 
 Problem 1: Efficient Filtering
@@ -111,6 +125,22 @@ Problem 4
 Problem 5
 
 # Module 0 - Signal Processing MS in Python/lab3-RadarDesign.md
+
+Radar Search
+
+Scanning the Area or Volume:
+
+Problem: Basic 360 Azimuth Scan
+
+Problem: Dwell and Switch
+
+Problem: Multi-PRI Processing
+
+Radar Tracking
+
+Track Association 
+
+Filtering
 
 # Module 0 - Signal Processing MS in Python/lab4-CommsDesign.md
 
