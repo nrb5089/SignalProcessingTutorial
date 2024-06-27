@@ -15,6 +15,7 @@ Spyder, Pycharm, or some other IDE
 ------------------------------------------
 Contact IT for installation.
 
+
 No frills CMD and Notepad++
 ------------------------------------------
 Open up the ``Command Prompt`` using any method you like (I press the ``Windows`` key and type ``cmd`` and hit ``enter``).  
@@ -25,7 +26,7 @@ Create a batch file by typing
     notepad mysetup.bat
 
 
-Place the following text in the batch file (Note that you may need to adjust the paths):
+Place the following text in the batch file (Note that you may need to adjust the paths) 
 
 .. code-block::
     @ECHO OFF
@@ -56,11 +57,11 @@ Importing and using NumPy
 
 Once NumPy is installed, you need to import it into your Python environment. You can do so with the following line of code:
 
-.. code-block::
-    import numpy as np
+
+``import numpy as np``
 
 
-We use `as np` so that we can refer to numpy with the shortened 'np' instead of typing out 'numpy' each time we want to use it.
+We use ``as np`` so that we can refer to numpy with the shortened 'np' instead of typing out 'numpy' each time we want to use it.
 
 Creating a NumPy array
 ------------------------------------------
@@ -69,7 +70,7 @@ Vectors and Matrices are critical to understanding signal processing algorithms,
 
 A numpy array is a grid of values, all of the same type, and is indexed by a tuple of nonnegative integers. 
 
-You can create a numpy array from a Python list or tuple using the `array` function. Here's an example:
+You can create a numpy array from a Python list or tuple using the `array` function. Here's an example
 
 .. code-block::
     import numpy as np
@@ -90,7 +91,7 @@ Array Indexing
 ------------------
 The $n$th element of a vector may be denoted as $v[n]$ or $v_n$.  We will denote this in unbolded since it is scalar, i.e., $\textbf{v} = [v_0,\dots,v_n,\dots]$.
 
-You can access the array elements as:
+You can access the array elements as
 
 .. code-block::
     import numpy as np
@@ -101,7 +102,7 @@ You can access the array elements as:
     print(v[2] + v[3])  # Output: 7
 
 Likewise for matrices $M[m,n]$ or $M_{m,n}$ denotes the element in row $m$ and column $n$.
-For 2D arrays, you need to use comma-separated indices:
+For 2D arrays, you need to use comma-separated indices
 
 .. code-block::
     import numpy as np
@@ -115,7 +116,7 @@ For 2D arrays, you need to use comma-separated indices:
 Array Slicing
 ------------------------------------------
 Slices of vectors or matrices are denoted $\textbf{v}[m:n]$ or $\textbf{v}_{m:n}$, and for matrices, $\textbf{M}[m:n,p:q]$ or $\textbf{M}_{m:n,p:q}$.
-NumPy arrays can be sliced, You can slice a NumPy array like this:
+NumPy arrays can be sliced, You can slice a NumPy array like this
 
 .. code-block::
     import numpy as np
@@ -201,7 +202,7 @@ Remember, this is just a basic tutorial and NumPy offers many more features and 
 
 Linear Algebra Operations
 ===========================
-Here are a few linear algebra operations related to using NumPy arrays in the context of linear algebra:
+Here are a few linear algebra operations related to using NumPy arrays in the context of linear algebra.
 
 Matrix-Vector Multiplication
 -----------------------------------
@@ -294,7 +295,7 @@ Python has built-in support for complex numbers, which are written with a "j" as
     print(z)  # Outputs: (-0.15384615384615385+1.2307692307692308j)
 
 
-You can do other operations like power and roots as well, but these will need to be done in modules like `numpy` or `cmath`.  A complex number is generally represented as: $z = a + bj $, where $ a $ and $ b $ are real numbers, and $ j $ is the imaginary unit with the property $ j^2 = -1 $.
+You can do other operations like power and roots as well, but these will need to be done in modules like `numpy` or `cmath`.  A complex number is generally represented as $z = a + bj $, where $ a $ and $ b $ are real numbers, and $ j $ is the imaginary unit with the property $ j^2 = -1 $.
 
 **Real part:** $\Re(z) = a$
 
