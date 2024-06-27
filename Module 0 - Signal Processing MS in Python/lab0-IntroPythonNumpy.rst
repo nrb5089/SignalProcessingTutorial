@@ -17,7 +17,7 @@ Contact IT for installation.
 
 No frills CMD and Notepad++
 ------------------------------------------
-Open up the ```Command Prompt``` using any method you like (I press the ```Windows``` key and type ```cmd``` and hit ```enter```).  
+Open up the ``Command Prompt`` using any method you like (I press the ``Windows`` key and type ``cmd`` and hit ``enter``).  
 
 Create a batch file by typing 
 
@@ -33,9 +33,9 @@ Place the following text in the batch file (Note that you may need to adjust the
     DOSKEY npp="<full path>/Notepad++/notepad++.exe"
 
 
-At the time of this writing, Python should be in `C:` and Notepad++ should be in either `C:/Program Files` or `C:/Program Files x86` on the associated DEV machines.  Save and/or save and close the batch file.  Type `mysetup.bat`, this should initialize the cmd prompt to now use your short hand expressions `py` and `npp` for the respective programs.  Create a new `.py` file by typing `npp hello_world.py`.  If  **Notepad++** opens up with this new file, this portion works correctly.  Now add `print('hello world!')` to your new `.py` file.  Save and/or save and close the new `hello_world.py` file.  In the CMD Prompt, type `py hello_world.py`.  If you received a message in the next line `hello world!`, then everything is working.  This is the method by which you can execute `.py` files
+At the time of this writing, Python should be in ``C:`` and Notepad++ should be in either ``C:/Program Files`` or ``C:/Program Files x86`` on the associated DEV machines.  Save and/or save and close the batch file.  Type ``mysetup.bat``, this should initialize the cmd prompt to now use your short hand expressions ``py`` and ``npp`` for the respective programs.  Create a new ``.py`` file by typing ``npp hello_world.py``.  If  **Notepad++** opens up with this new file, this portion works correctly.  Now add ``print('hello world!')`` to your new ``.py`` file.  Save and/or save and close the new ``hello_world.py`` file.  In the CMD Prompt, type ``py hello_world.py``.  If you received a message in the next line ``hello world!``, then everything is working.  This is the method by which you can execute ``.py`` files
 
-**Note** : You will have to refresh `mysetup.bat` for each new CMD window openned.
+**Note** : You will have to refresh ``mysetup.bat`` for each new CMD window openned.
 
 
 Why Python?
@@ -65,11 +65,11 @@ We use `as np` so that we can refer to numpy with the shortened 'np' instead of 
 Creating a NumPy array
 ------------------------------------------
 
-    Vectors and Matrices are critical to understanding signal processing algorithms, we denote vectors as bold lower case $\textbf{v}$ and matrices as bold upper case $\textbf{M}$.  Tensors (informally, matrices with greater than 2 dimensions), are also represented by multidimensional arrays.  The starting example are all real elements, but extend to complex numbers as well.  Python/Numpy uses $1j$ or $1i$ to denote imaginary numbers, i.e., $1 + 2j$.  
+Vectors and Matrices are critical to understanding signal processing algorithms, we denote vectors as bold lower case $\textbf{v}$ and matrices as bold upper case $\textbf{M}$.  Tensors (informally, matrices with greater than 2 dimensions), are also represented by multidimensional arrays.  The starting example are all real elements, but extend to complex numbers as well.  Python/Numpy uses $1j$ or $1i$ to denote imaginary numbers, i.e., $1 + 2j$.  
 
-    A numpy array is a grid of values, all of the same type, and is indexed by a tuple of nonnegative integers. 
+A numpy array is a grid of values, all of the same type, and is indexed by a tuple of nonnegative integers. 
 
-    You can create a numpy array from a Python list or tuple using the `array` function. Here's an example:
+You can create a numpy array from a Python list or tuple using the `array` function. Here's an example:
 
 .. code-block::
     import numpy as np
@@ -445,30 +445,30 @@ Here are 3 problems related to using the linear algebra capabilities in NumPy, a
 Problem 1: Matrix Operations
 -----------------------------
 
-Given two matrices `A` and `B`:
+Given two matrices ``A`` and ``B``:
 
-`A = np.array([[1, 2], [3, 4], [5, 6]])` 
+``A = np.array([[1, 2], [3, 4], [5, 6]])``
 
-`B = np.array([[2, 5, 11], [7, 10,3]])` 
+``B = np.array([[2, 5, 11], [7, 10,3]])`` 
 
-Write a Python script to perform the following operations using `@`, `.T`, and `*`:
+Write a Python script to perform the following operations using ``@``, ``.T``, and ``*``:
 
 1. Matrix Multiplication of A and B
 2. Element-wise Multiplication of A's transpose and B
 
 **Output**
 Matrix multiplication of A and B:
- ```
- [[16 25 17]
- [34 55 45]
- [52 85 73]]
- ```
+ .. code-block::
+     [[16 25 17]
+     [34 55 45]
+     [52 85 73]]
+ 
 Element-wise multiplication of A's transpose and B:
  
- ```
- [[ 2 15 55]
- [14 40 18]]
- ```
+ .. code-block::
+     [[ 2 15 55]
+     [14 40 18]]
+ 
  
 Problem 2: Determinant and Inverse
 ------------------------------------
@@ -480,7 +480,7 @@ Given a matrix `C = np.array([[4, 7, 9, 12], [2, 6, 1, 0.5], [1, 10, 1, 4], [5, 
 
 **Output**
 Determinant of C:
- `-239.5000000000001`
+ ``-239.5000000000001``
 Inverse of C:
 .. code-block::
      [[ 0.434238    2.35908142 -1.39457203 -0.81210856]
