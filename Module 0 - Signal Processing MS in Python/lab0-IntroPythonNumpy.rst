@@ -22,13 +22,15 @@ Open up the ``Command Prompt`` using any method you like (I press the ``Windows`
 
 Create a batch file by typing 
 
-.. code-block::
+.. code-block:: bat
+
     notepad mysetup.bat
 
 
 Place the following text in the batch file (Note that you may need to adjust the paths) 
 
-.. code-block::
+.. code-block:: bat
+
     @ECHO OFF
     DOSKEY py="<full path>/Python/python.exe"
     DOSKEY npp="<full path>/Notepad++/notepad++.exe"
@@ -72,7 +74,8 @@ A numpy array is a grid of values, all of the same type, and is indexed by a tup
 
 You can create a numpy array from a Python list or tuple using the `array` function. Here's an example
 
-.. code-block::
+.. code-block:: python
+
     import numpy as np
 
     ## Creating a 1D array (Vector)
@@ -93,7 +96,8 @@ The $n$th element of a vector may be denoted as $v[n]$ or $v_n$.  We will denote
 
 You can access the array elements as
 
-.. code-block::
+.. code-block:: python
+
     import numpy as np
 
     v = np.array([1, 2, 3, 4, 5])
@@ -104,7 +108,7 @@ You can access the array elements as
 Likewise for matrices $M[m,n]$ or $M_{m,n}$ denotes the element in row $m$ and column $n$.
 For 2D arrays, you need to use comma-separated indices
 
-.. code-block::
+.. code-block:: python 
     import numpy as np
 
     M = np.array([[1,2,3,4,5], [6,7,8,9,10]])
@@ -118,7 +122,8 @@ Array Slicing
 Slices of vectors or matrices are denoted $\textbf{v}[m:n]$ or $\textbf{v}_{m:n}$, and for matrices, $\textbf{M}[m:n,p:q]$ or $\textbf{M}_{m:n,p:q}$.
 NumPy arrays can be sliced, You can slice a NumPy array like this
 
-.. code-block::
+.. code-block:: python 
+
     import numpy as np
 
     v = np.array([1, 2, 3, 4, 5, 6, 7])
@@ -128,7 +133,8 @@ NumPy arrays can be sliced, You can slice a NumPy array like this
 
 For 2D arrays, it works similarly:
 
-.. code-block::
+.. code-block:: python 
+
     import numpy as np
 
     M = np.array([[1,2,3,4,5], [6,7,8,9,10]])
@@ -142,7 +148,8 @@ Basic Array Operations
 
 You can perform element-wise operations on arrays like addition, subtraction, etc.
 
-.. code-block::
+.. code-block:: python 
+
     import numpy as np
 
     arr1 = np.array([1, 2, 3])
@@ -167,7 +174,8 @@ Mathematical Functions
 
 NumPy provides standard mathematical functions like sin, cos, exp, etc. These functions operate element-wise on an array, producing an array as output.
 
-.. code-block::
+.. code-block:: python 
+
     import numpy as np
 
     arr = np.array([0, 30, 45, 60, 90])
@@ -183,7 +191,8 @@ Statistical Functions
 
 NumPy provides functions to calculate statistical metrics like mean, median, standard deviation, etc.
 
-.. code-block::
+.. code-block:: python 
+
     import numpy as np
 
     arr = np.array([1,2,3,4,5])
@@ -208,7 +217,8 @@ Matrix-Vector Multiplication
 -----------------------------------
 3x3 matrix, $\textbf{A}$, and a 3x1 vector, $\textbf{v}$. Perform matrix-vector multiplication.
 
-.. code-block::
+.. code-block:: python 
+
     import numpy as np
 
     # Define a 3x3 matrix
@@ -230,7 +240,9 @@ Matrix-Matrix Multiplication
 ------------------------------------------
 
 3x3 matrices, $\textbf{A}$, $\textbf{B}$, compute the element-wise (Hadamard) product $\textbf{A}\circ\textbf{B}$ and the more common matrix-matrix multiplciation $\textbf{A}\textbf{B}$.  When we talk about matrix-matrix multplication, we always mean the latter here, but will be denoted with $\circ$ otherwise.
-.. code-block::
+
+.. code-block:: python 
+
     import numpy as np
 
     # Define two 3x3 matrices
@@ -258,7 +270,8 @@ Complex Numbers
 
 Python has built-in support for complex numbers, which are written with a "j" as the imaginary part. Here's a quick introduction:
 
-.. code-block::
+.. code-block:: python 
+
     # Creating complex numbers
     x = 3 + 4j
     y = 2 - 3j
@@ -324,7 +337,8 @@ Transpose and Hermitian
 
 Compute the transpose, $\textbf{A}^T$, and Hermitian (conjugate transpose), $\textbf{C}^H$ of a matrix.  
 
-.. code-block::
+.. code-block:: python 
+
     import numpy as np
 
     # Define a Real 3x2 matrix
@@ -352,7 +366,8 @@ Inverse
 ------------------------------------------
 Compute the inverse of a matrix, $\textbf{A}^{-1}$.
 
-.. code-block::
+.. code-block:: python 
+
     import numpy as np
 
     # Define a 3x3 matrix
@@ -370,7 +385,8 @@ Determinant
 ------------------------------------------
 Compute the determinant of a matrix, $\textrm{det}(\textbf{A})$.
 
-.. code-block::
+.. code-block:: python 
+
     import numpy as np
 
     # Define a 3x3 matrix
@@ -389,7 +405,8 @@ Solve the System of Linear Equations
 
 $3x + y = 9$ and $x + 2y = 8$.
 
-.. code-block::
+.. code-block:: python 
+
     import numpy as np
 
     # Define the system's matrix
@@ -410,7 +427,8 @@ Eigenvalue Decomposition
 
 Find the eigenvalues and eigenvectors of a matrix, $A = \textbf{V}\textbf{D}\textbf{V}^{-1}$.
 
-.. code-block::
+.. code-block:: python 
+
     import numpy as np
 
     # Define a 2x2 matrix
